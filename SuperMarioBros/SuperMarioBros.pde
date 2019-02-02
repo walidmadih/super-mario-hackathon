@@ -18,7 +18,7 @@ void setup() {
 void draw() {
   game.step();
   pushMatrix();
-    scale(cellSize,-cellSize);
+   scale(cellSize,-cellSize);
     translate(-game.window.bottomLeft.x, -game.window.height()-game.window.bottomLeft.y);  
     game.draw();
   popMatrix();
