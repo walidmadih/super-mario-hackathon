@@ -1,0 +1,110 @@
+0
+
+1
+property=background image=data/img/tiles/2.png
+
+2
+property=background image=data/img/tiles/3.png
+
+3
+property=background image=data/img/tiles/4.png
+
+4
+property=background image=data/img/tiles/5.png
+
+5
+property=background image=data/img/tiles/6.png
+
+6
+property=background image=data/img/tiles/7.png
+
+7
+property=background image=data/img/tiles/8.png
+
+8
+property=background image=data/img/tiles/9.png
+
+9
+property=tile type=container content=coin n=1 imageSet=data/img/tiles/imageSet1
+
+:
+property=tile type=breakable color=red imageSet=data/img/tiles/imageSet4
+
+;
+property=tile type=container content=grow n=1 imageSet=data/img/tiles/imageSet1
+
+<
+property=tile type=solid image=data/img/tiles/26.png 
+
+=
+property=tile type=container content=1up n=1 imageSet=data/img/tiles/imageSet2
+
+>
+property=background image=data/img/tiles/10.png
+
+?
+property=tile type=solid image=data/img/tiles/27.png 
+
+@
+property=tile type=solid image=data/img/tiles/28.png 
+
+A
+property=tile type=container content=coin n=10 imageSet=data/img/tiles/imageSet3
+
+B
+property=tile type=container content=star n=1 imageSet=data/img/tiles/imageSet3
+
+C
+property=background image=data/img/tiles/11.png
+
+D
+property=background image=data/img/tiles/12.png
+
+E
+property=background image=data/img/tiles/13.png
+
+F
+property=background image=data/img/tiles/14.png
+
+G
+property=tile type=solid image=data/img/tiles/29.png 
+
+H
+property=tile type=solid image=data/img/tiles/30.png 
+
+I
+property=background image=data/img/tiles/15.png
+
+J
+property=background image=data/img/tiles/16.png
+
+K
+property=background image=data/img/tiles/17.png
+
+L
+property=background image=data/img/tiles/18.png
+
+M
+property=background image=data/img/tiles/19.png
+
+N
+property=background image=data/img/tiles/20.png
+
+O
+property=background image=data/img/tiles/21.png
+
+P
+property=background image=data/img/tiles/22.png
+
+Q
+property=background image=data/img/tiles/23.png
+
+R
+property=background image=data/img/tiles/24.png
+
+S
+property=background image=data/img/tiles/25.png
+
+T
+property=tile type=solid image=data/img/tiles/31.png 
+

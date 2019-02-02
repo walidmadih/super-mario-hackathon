@@ -1,0 +1,4 @@
+property=background r=92 g=148 b=252
+property=map file=map.txt
+property=cellProperties file=cellProperties.txt
+property=triggers file=triggers.txt
