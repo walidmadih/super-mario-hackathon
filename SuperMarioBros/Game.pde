@@ -82,6 +82,7 @@ class Game {
     float hr = height / 50.0;
     float wr = width / 50.0;
 
+    Body mario = new Body(0,0, wr, 2 * hr);
     
     
     boolean colorAlternate = true;
@@ -101,6 +102,7 @@ class Game {
         rect(wr * i, hr * j, wr, hr);
       }
     }
+    mario.draw();
 
     //TODO(step1): draw the player.
   }

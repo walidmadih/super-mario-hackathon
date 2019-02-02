@@ -18,8 +18,8 @@ void setup() {
 void draw() {
   game.step();
   pushMatrix();
-   //scale(cellSize,-cellSize);
-    //translate(-game.window.bottomLeft.x, -game.window.height()-game.window.bottomLeft.y);  
+    //scale(3.125 , 3.125);
+    //translate(-19* 12.8,-19 * 12.8);  
     game.draw();
   popMatrix();
 }
