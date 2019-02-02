@@ -1,6 +1,10 @@
-
 final int cellSize = 2*16; // in pixels, use multiples of 16
 int fps = 50;
+double finalTilePos = 16 * cellSize;
+double initialTilePos = 0;
+double lastPos;
+double pos;
+double deltaPos;
 
 // global variables
 Drawer drawer = new Drawer();
@@ -20,11 +24,21 @@ void setup() {
 // Processing runs this every frame.
 void draw() {
   game.step();
+  double pos = game.player.pos.x;
+  if(lastPos != 0){
+    if(pos > finalTilePos - 3 * cellSize){
+     deltaPos = pos - lastPos;
+     finalTilePos = finalTilePos + deltaPos;
+     initialTilePos = initialTilePos + deltaPos;
+    }
+  }
   pushMatrix();
     //scale(-2 , -2);
-    translate(0, cellSize * 6);  
+    translate(-(float)initialTilePos, cellSize * 6);  
+    
     game.draw();
   popMatrix();
+  lastPos = pos;
 }
 
 void onKeyPress(int keyCode) {
