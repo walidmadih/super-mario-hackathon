@@ -27,28 +27,49 @@ class Player extends Body {
     this.size = new Vec2(cellSize, 2*cellSize);
   }
      
-  void step(float dt){
-    dt = 2.5*dt;
-    if (Keyboard.isPressed(87)) {
-      pos.y -= dt;
+  void step(float dt){    
+    handleControls();
+    vel.add(acc.x * dt, acc.y * dt);
+    if (acc.x == 0) {
+       vel.x *= GameConstants.DAMPING;
     }
     
-    if (Keyboard.isPressed(83)) {
-      pos.y += dt;
-    }
     
-    if (Keyboard.isPressed(65)) {
-      pos.x -= dt;
-    }
+    restrictVelocity();     
+    pos.add(vel);
     
-    if (Keyboard.isPressed(68)) {
-      pos.x += dt;
-    }
-       
     handleTiles();
     handleEnemies();
     handleItems();
     handleObstacles(); //<>//
+  }
+  
+  void handleControls() {
+    acc.y = GameConstants.GRAVITY;
+    
+     boolean up = Keyboard.isPressed(87);
+     if (up) {
+      vel.y = GameConstants.PLAYER_JUMP;
+    }
+    
+    if (Keyboard.isPressed(83)) { 
+      // TODO: implement crouch 
+      //pos.y += dt;
+    }
+    
+    // Left
+    boolean left = Keyboard.isPressed(65);
+    boolean right = Keyboard.isPressed(68);
+    if (left != right) {
+      acc.x = GameConstants.PLAYER_ACC * (right ? 1 : -1); 
+    } else {
+      acc.x = 0;
+    }
+  }
+  
+  void restrictVelocity() {
+    vel.x = max(-GameConstants.PLAYER_MAX_SPEED_X, min(vel.x, GameConstants.PLAYER_MAX_SPEED_X));
+    vel.y = min(GameConstants.PLAYER_MAX_SPEED_Y, vel.y);
   }
   
   void handleCollisions() {

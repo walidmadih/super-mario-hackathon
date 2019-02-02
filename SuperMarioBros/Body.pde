@@ -7,7 +7,7 @@ class Body{
   Vec2 pos = new Vec2(); // position of bottom-left corner
   Vec2 size = new Vec2(1);  
   Vec2 vel = new Vec2();
-  Vec2 accel = new Vec2();
+  Vec2 acc = new Vec2();
   Vec2 damping = new Vec2(1,1);
   Image img = null;
   boolean visible = true;
@@ -25,7 +25,7 @@ class Body{
     pos = o.pos.copy();
     size = o.size.copy();
     vel = o.vel.copy();
-    accel = o.accel.copy();
+    acc = o.acc.copy();
     damping = o.damping.copy();
     visible = o.visible;
     img = o.img;
