@@ -89,13 +89,51 @@ class Player extends Body {
       return;
     }
     
-    if (voteY != 0) {
-      this.pos.y = cellSize * ((voteY < 0) ? floor(this.pos.y/cellSize) : ceil(this.pos.y/cellSize));
+    final int finalVoteY = voteY;
+    final int finalVoteX = voteX;
+    Runnable run1 = new Runnable() {
+
+      public void run() {
+      if (finalVoteY != 0) {
+        Player.this.pos.y = cellSize * ((finalVoteY < 0) ? floor(Player.this.pos.y/cellSize) : ceil(Player.this.pos.y/cellSize));
+      }
+    }};
+    
+    Runnable run2 = new Runnable() {
+       public void run() {
+         if (finalVoteX != 0) {
+           Player.this.pos.x = cellSize * ((finalVoteX < 0) ? floor( Player.this.pos.x/cellSize) : ceil( Player.this.pos.x/cellSize));
+        }
+       }
+    };
+    
+    if (abs(finalVoteX) > abs(finalVoteY)) {
+      Runnable temp = run2;
+      run2 = run1;
+      run1 = temp;
     }
     
-    if (voteX != 0) {
-      this.pos.x = cellSize * ((voteX < 0) ? floor(this.pos.x/cellSize) : ceil(this.pos.x/cellSize));
+    run1.run();
+    
+    boolean hasCollision = false;
+    outer: for (int x = minX; x <= maxX; ++x) {
+      for (int y = minY; y <= maxY; ++y) {
+        SolidTile tile = new SolidTile(x, y);
+        if (!game.tempTiles.contains(tile))
+          continue;
+        
+        CollisionData d = tile.getCollisionData(this);
+        if (d != null) {
+          hasCollision = true;
+          break outer;
+        }
+      }  
     }
+    
+    if (!hasCollision) return;
+    
+    run2.run();
+    
   }
   
   void interactWith(Tile tile){ //<>//
