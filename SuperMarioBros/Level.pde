@@ -5,7 +5,7 @@ class CellContent {
 }
 
 class Level {
-  Color backgroundColor = new Color(135, 206, 235);
+  Color backgroundColor = new Color(92, 148, 252);
   PImage[][] backgroundImages = new PImage[0][0];
   Tile[][] tiles = new Tile[0][0];
   Item[][] staticItems = new Item[0][0];
@@ -102,12 +102,12 @@ class Level {
         tiles[i][j] = tileProperties.get(map[i][j]).tile;
         if (tiles[i][j] != null) {
           tiles[i][j] = tiles[i][j].copy();
-          tiles[i][j].pos.set(i, j);
+          tiles[i][j].pos.set(i*cellSize, j*cellSize);
         }
         staticItems[i][j] = tileProperties.get(map[i][j]).item;
         if (staticItems[i][j] != null) {
           staticItems[i][j] = staticItems[i][j].copy();
-          staticItems[i][j].pos.set(i, j);
+          staticItems[i][j].pos.set(i*cellSize, j*cellSize);
         }
       }
     }
@@ -133,7 +133,8 @@ class Level {
     String[] lines = loadStrings(file);
     CellContent currentCellContent = null;
     char index = (char)-1;
-    for (String line : lines) {
+    for (int i = 0; i < lines.length; ++i) {
+      String line = lines[i];
       String[] tokens = line.split(" ");
       if (tokens[0].length() == 0 || tokens[0].charAt(0) == '%') continue;
       if (tokens[0].length() == 1) {
@@ -161,9 +162,9 @@ class Level {
           if (properties.get("type").equals("solid")) {
             tileProperties.get(index).tile = new SolidTile();
           } else if (properties.get("type").equals("breakable")) {
-            //TODO(step6)
+            tileProperties.get(index).tile = new BreakableTile();
           } else if (properties.get("type").equals("container")) {
-            //TODO(step7)
+            tileProperties.get(index).tile = new ContainerTile();
           }
         } else if (properties.get("property").equals("item")) {
           //TODO(step7)

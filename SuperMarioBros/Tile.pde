@@ -3,7 +3,9 @@
 
 class Tile extends Body{
     
-  Tile() {}
+  Tile() {
+    this.size = new Vec2(cellSize, cellSize);
+  }
   Tile(Tile o) { super(o); }
   Tile copy() {
     Tile tile = new Tile(this);

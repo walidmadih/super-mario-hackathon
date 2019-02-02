@@ -63,15 +63,16 @@ class Player extends Body {
        
     for (int x = minX; x <= maxX; ++x) {
       for (int y = minY; y <= maxY; ++y) {
-        SolidTile tile = new SolidTile(x, y);
-        if (!game.tempTiles.contains(tile))
+        Tile tile = game.level.getTile(x, y);
+        if (tile == null)
           continue;
-        
+          
         CollisionData d = tile.getCollisionData(this);
         if (d == null) continue;
         
+        println(d);
+        
         data = d;
-        println(data);
         ++collisionCount;
         voteX += data.voteX();
         voteY += data.voteY();
@@ -79,7 +80,6 @@ class Player extends Body {
     }
     
     if (collisionCount == 0) return;
-    println("ay");
     if (collisionCount == 1) {
       if (abs((float)data.p[0]) >= abs((float)data.p[1])){
         this.pos.y = cellSize * ((data.p[1] > 0) ? floor(this.pos.y/cellSize) : ceil(this.pos.y/cellSize));
@@ -118,8 +118,8 @@ class Player extends Body {
     boolean hasCollision = false;
     outer: for (int x = minX; x <= maxX; ++x) {
       for (int y = minY; y <= maxY; ++y) {
-        SolidTile tile = new SolidTile(x, y);
-        if (!game.tempTiles.contains(tile))
+        Tile tile = game.level.getTile(x,y);
+        if (tile == null)
           continue;
         
         CollisionData d = tile.getCollisionData(this);
