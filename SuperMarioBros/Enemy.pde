@@ -14,10 +14,10 @@ abstract class Enemy extends Body {
     
   // **** stepping ****
   void step(float dt){
-    if(!alive) return; //<>// //<>//
-    super.step(dt); //<>// //<>//
+    if(!alive) return; //<>//
+    super.step(dt); //<>//
   }
-    //<>// //<>// //<>//
+    //<>// //<>//
   boolean valid(){ return alive; }
   
 }
@@ -37,8 +37,8 @@ class Goomba extends Enemy {
   // **** stepping ****
   void step(float dt){
     if(!alive) return;
-    super.step(dt); //<>// //<>//
-  }   //<>// //<>//
+    super.step(dt); //<>//
+  }   //<>//
 }
 
 

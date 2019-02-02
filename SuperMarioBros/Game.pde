@@ -67,7 +67,7 @@ class Game {
     for (Animation anim : animations) anim.step(dt);
 
     // check collisions
-    
+    player.handleCollisions();
 
     // check triggers
     for (Iterator<Trigger> it = activeTriggers.iterator(); it.hasNext(); ) {

@@ -28,6 +28,7 @@ class Player extends Body {
   }
      
   void step(float dt){
+    dt = 2.5*dt;
     if (Keyboard.isPressed(87)) {
       pos.y -= dt;
     }
@@ -48,6 +49,53 @@ class Player extends Body {
     handleEnemies();
     handleItems();
     handleObstacles(); //<>//
+  }
+  
+  void handleCollisions() {
+    int collisionCount = 0;
+    int voteX = 0, voteY = 0;
+    CollisionData data = null;
+    
+    int minX = floor(pos.x / cellSize);
+    int minY = floor(pos.y / cellSize);
+    int maxX = floor((pos.x + size.x) / cellSize);
+    int maxY = floor((pos.y + size.y) / cellSize);
+       
+    for (int x = minX; x <= maxX; ++x) {
+      for (int y = minY; y <= maxY; ++y) {
+        SolidTile tile = new SolidTile(x, y);
+        if (!game.tempTiles.contains(tile))
+          continue;
+        
+        CollisionData d = tile.getCollisionData(this);
+        if (d == null) continue;
+        
+        data = d;
+        println(data);
+        ++collisionCount;
+        voteX += data.voteX();
+        voteY += data.voteY();
+      }  
+    }
+    
+    if (collisionCount == 0) return;
+    println("ay");
+    if (collisionCount == 1) {
+      if (abs((float)data.p[0]) >= abs((float)data.p[1])){
+        this.pos.y = cellSize * ((data.p[1] > 0) ? floor(this.pos.y/cellSize) : ceil(this.pos.y/cellSize));
+      } else {
+        this.pos.x = cellSize * ((data.p[0] > 0) ? floor(this.pos.x/cellSize) : ceil(this.pos.x/cellSize));
+      }
+      return;
+    }
+    
+    if (voteY != 0) {
+      this.pos.y = cellSize * ((voteY < 0) ? floor(this.pos.y/cellSize) : ceil(this.pos.y/cellSize));
+    }
+    
+    if (voteX != 0) {
+      this.pos.x = cellSize * ((voteX < 0) ? floor(this.pos.x/cellSize) : ceil(this.pos.x/cellSize));
+    }
   }
   
   void interactWith(Tile tile){ //<>//
