@@ -25,19 +25,19 @@ property=background image=data/img/tiles/8.png
 property=background image=data/img/tiles/9.png
 
 9
-property=tile type=container content=coin n=1 imageSet=data/img/tiles/imageSet1
+property=tile type=container content=coin n=1 image=data/img/tiles/imageSet1/begin.png
 
 :
-property=tile type=breakable color=red imageSet=data/img/tiles/imageSet4
+property=tile type=breakable color=red image=data/img/tiles/imageSet4/begin.png
 
 ;
-property=tile type=container content=grow n=1 imageSet=data/img/tiles/imageSet1
+property=tile type=container content=grow n=1 image=data/img/tiles/imageSet1/begin.png
 
 <
 property=tile type=solid image=data/img/tiles/26.png 
 
 =
-property=tile type=container content=1up n=1 imageSet=data/img/tiles/imageSet2
+property=tile type=container content=1up n=1 image=data/img/tiles/imageSet2/begin.png
 
 >
 property=background image=data/img/tiles/10.png
@@ -49,10 +49,10 @@ property=tile type=solid image=data/img/tiles/27.png
 property=tile type=solid image=data/img/tiles/28.png 
 
 A
-property=tile type=container content=coin n=10 imageSet=data/img/tiles/imageSet3
+property=tile type=container content=coin n=10 image=data/img/tiles/imageSet3/begin.png
 
 B
-property=tile type=container content=star n=1 imageSet=data/img/tiles/imageSet3
+property=tile type=container content=star n=1 image=data/img/tiles/imageSet3/begin.png
 
 C
 property=background image=data/img/tiles/11.png

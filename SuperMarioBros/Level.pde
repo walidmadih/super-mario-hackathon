@@ -1,12 +1,12 @@
 class CellContent {
   Tile tile = null;
-  Image background = null;
+  PImage background = null;
   Item item = null;
 }
 
 class Level {
-  Color backgroundColor = new Color();
-  Image[][] backgroundImages = new Image[0][0];
+  Color backgroundColor = new Color(135, 206, 235);
+  PImage[][] backgroundImages = new PImage[0][0];
   Tile[][] tiles = new Tile[0][0];
   Item[][] staticItems = new Item[0][0];
   ArrayList<Trigger> triggers = new ArrayList<Trigger>(); 
@@ -22,7 +22,7 @@ class Level {
     return tiles[0].length;
   }
 
-  Image getBackgroundImage(int i, int j) { 
+  PImage getBackgroundImage(int i, int j) { 
     return (i < 0 || i >= width() || j < 0 || j >= height())? null : backgroundImages[i][j];
   }  
   Tile getTile(int i, int j) { 
@@ -34,6 +34,16 @@ class Level {
 
 
   void drawBackgroundImages() {
+    fill(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+    rect(0 , 0, width, height);
+    
+    for(int i = 0; i < width() ; i++) {
+      for(int j = 0; j < height(); j++) {
+        PImage bi = backgroundImages[i][j];
+        if (bi != null)
+           image(bi, cellSize * i, cellSize * j);
+      }
+    }
   }
   void drawTiles() {
   }
@@ -81,7 +91,7 @@ class Level {
 
 
     final int w = map.length, h = map[0].length;
-    backgroundImages = new Image[w][h];
+    backgroundImages = new PImage[w][h];
     tiles = new Tile[w][h];
     staticItems = new Item[w][h];
 
@@ -144,10 +154,10 @@ class Level {
 
         if (properties.get("property").equals("background")) {
           String imageUrl = properties.get("image");
-          tileProperties.get(index).background = resources.getImage(imageUrl);
+          tileProperties.get(index).background = loadImage(imageUrl);
         } else if (properties.get("property").equals("tile")) { 
           String imageUrl = properties.get("image");
-          tileProperties.get(index).background = resources.getImage(imageUrl);
+          tileProperties.get(index).background = loadImage(imageUrl);
           if (properties.get("type").equals("solid")) {
             tileProperties.get(index).tile = new SolidTile();
           } else if (properties.get("type").equals("breakable")) {

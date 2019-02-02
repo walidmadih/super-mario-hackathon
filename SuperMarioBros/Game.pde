@@ -94,6 +94,7 @@ class Game {
   void draw() {
 
     //TODO(step1): replace this with a checkerboard pattern and a "plus" sign at the origin
+   
 
     float hr = height / 50.0;
     float wr = width / 50.0;    
@@ -121,6 +122,7 @@ class Game {
     }
     
     player.draw();
+    level.drawBackgroundImages();
 
     //TODO(step1): draw the player.
   }
