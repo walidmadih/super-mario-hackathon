@@ -41,7 +41,7 @@ class Level {
       for(int j = 0; j < height(); j++) {
         PImage bi = backgroundImages[i][j];
         if (bi != null)
-           image(bi, cellSize * i, cellSize * j);
+           image(bi, cellSize * i, cellSize * j, cellSize, cellSize);
       }
     }
   }
