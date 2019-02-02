@@ -7,12 +7,15 @@ class Game {
   boolean play;
   Window window;
   Player player;
+  
+ 
 
   ArrayList<Item> items = new ArrayList<Item>();
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   ArrayList<Animation> animations = new ArrayList<Animation>();
   ArrayList<Body> obstacles = new ArrayList<Body>();
   ArrayList<Trigger> activeTriggers = new ArrayList<Trigger>();
+  ArrayList<SolidTile> tempTiles = new ArrayList<SolidTile>();
 
   Game() {
     window = new Window();
@@ -31,6 +34,16 @@ class Game {
     // load level
     level.load("data/levels/lvl1-1/lvl.txt");  
     activeTriggers = level.copyTriggersArray();
+
+    for (int i = 5; i <=10; i++){
+     tempTiles.add(new SolidTile(5, i)); 
+    }
+    
+    for (int i = 5; i <=10; i++){
+     tempTiles.add(new SolidTile(i, 15)); 
+    }
+    
+    tempTiles.add(new SolidTile(10, 7));
 
     window.setSize(20, 20);
     // TODO(step1): position window
@@ -52,6 +65,9 @@ class Game {
     for (Item item : items) item.step(dt);
     for (Body obstacle : obstacles) obstacle.step(dt);
     for (Animation anim : animations) anim.step(dt);
+
+    // check collisions
+    
 
     // check triggers
     for (Iterator<Trigger> it = activeTriggers.iterator(); it.hasNext(); ) {
@@ -80,10 +96,7 @@ class Game {
     //TODO(step1): replace this with a checkerboard pattern and a "plus" sign at the origin
 
     float hr = height / 50.0;
-    float wr = width / 50.0;
-
-    Body mario = new Body(0,0, wr, 2 * hr);
-    
+    float wr = width / 50.0;    
     
     boolean colorAlternate = true;
     for (float i = 0; i < 50; i++) {
@@ -102,8 +115,16 @@ class Game {
         rect(wr * i, hr * j, wr, hr);
       }
     }
-    mario.draw();
+    
+    for (SolidTile tile : tempTiles) {
+     tile.draw();
+    }
+    
+    player.draw();
 
     //TODO(step1): draw the player.
   }
+  
+
+ 
 }

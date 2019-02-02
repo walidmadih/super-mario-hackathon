@@ -7,6 +7,9 @@ Drawer drawer = new Drawer();
 Resources resources = new Resources();
 Game game;
 
+  boolean upPressed, downPressed, leftPressed, rightPressed;
+
+
 // Processing calls this only once at the beggining of the program.
 void setup() {
   noSmooth(); // to get the blocky aspect

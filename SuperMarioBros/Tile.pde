@@ -16,6 +16,7 @@ class Tile extends Body{
   void interactWith(Item item){
   }
   
+  
   boolean valid(){ return true; }
   
 }
@@ -26,7 +27,17 @@ class Tile extends Body{
 class SolidTile extends Tile{
   SolidTile() {}
   SolidTile(SolidTile o){ super(o); }
+  SolidTile(int x, int y){
+   this.pos = new Vec2(x*cellSize, y*cellSize);
+   this.size = new Vec2(cellSize, cellSize);
+  }
   SolidTile copy(){ return new SolidTile(this); }
+  public void draw(){
+    fill(0,0,0);
+    strokeWeight(0);
+    rect(this.pos.x, this.pos.y, this.size.x, this.size.y);
+
+  }
 }
 
 

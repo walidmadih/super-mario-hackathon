@@ -23,12 +23,26 @@ class Player extends Body {
   
   ImageSet imgSet;      
         
-  Player() {}
+  Player() {
+    this.size = new Vec2(cellSize, 2*cellSize);
+  }
      
   void step(float dt){
-    super.step(dt);
+    if (Keyboard.isPressed(87)) {
+      pos.y -= dt;
+    }
     
-    //TODO(step1): move in a circle
+    if (Keyboard.isPressed(83)) {
+      pos.y += dt;
+    }
+    
+    if (Keyboard.isPressed(65)) {
+      pos.x -= dt;
+    }
+    
+    if (Keyboard.isPressed(68)) {
+      pos.x += dt;
+    }
        
     handleTiles();
     handleEnemies();
@@ -51,6 +65,6 @@ class Player extends Body {
   boolean valid(){ return alive; }
 
   void draw() {
-    super.draw();
+      super.draw();
   }
 }   
