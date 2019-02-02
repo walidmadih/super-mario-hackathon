@@ -86,6 +86,7 @@ class Game {
     
     boolean colorAlternate = true;
     for (float i = 0; i < 50; i++) {
+      colorAlternate = !colorAlternate;
       for (int j = 0; j < 50; j++) {
         
         //alternates tile color
