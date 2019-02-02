@@ -35,7 +35,7 @@ class Level {
 
   void drawBackgroundImages() {
     fill(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-    rect(0 , 0, width, height);
+    rect(0 , -6*cellSize, width * 10, height * 10);
     
     for(int i = 0; i < width() ; i++) {
       for(int j = 0; j < height(); j++) {

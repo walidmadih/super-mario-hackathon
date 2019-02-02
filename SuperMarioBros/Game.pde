@@ -96,34 +96,12 @@ class Game {
     //TODO(step1): replace this with a checkerboard pattern and a "plus" sign at the origin
    
 
-    float hr = height / 50.0;
-    float wr = width / 50.0;    
+    float hr = height / 14.0;
+    float wr = width / 224.0;    
     
-    boolean colorAlternate = true;
-    for (float i = 0; i < 50; i++) {
-      colorAlternate = !colorAlternate;
-      for (int j = 0; j < 50; j++) {
-        
-        //alternates tile color
-        if (colorAlternate) {
-          fill(0, 0, 100);
-        } else {
-          fill(0, 100, 0);
-        }
-        colorAlternate = !colorAlternate;
-        //
-        strokeWeight(0);
-        rect(wr * i, hr * j, wr, hr);
-      }
-    }
     
-    for (SolidTile tile : tempTiles) {
-     tile.draw();
-    }
-    
-    player.draw();
     level.drawBackgroundImages();
-
+    player.draw();
     //TODO(step1): draw the player.
   }
   
