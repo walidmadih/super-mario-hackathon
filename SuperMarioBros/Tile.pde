@@ -92,5 +92,4 @@ class ContainerTile extends Tile{
     n = o.n;
   }
   ContainerTile copy(){ return new ContainerTile(this); }
-
 }

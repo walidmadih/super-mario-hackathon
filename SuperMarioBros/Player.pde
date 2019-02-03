@@ -21,6 +21,7 @@ class Player extends Body {
   boolean alive = true;
   boolean isCrouching;
   boolean isOnGround;
+  boolean isUnder;
   
   ImageSet imgSet = smallMarioSet;   
         
@@ -89,6 +90,7 @@ class Player extends Body {
   void handleCollision(FullCollisionReport collision) {
     isOnGround = (collision.voteY < 0);
   }
+  
   
   
   void handleEnemyCollisions() {

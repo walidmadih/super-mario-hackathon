@@ -1,4 +1,3 @@
-
 // ************ Body base class **************
 // base class for all interacting game element
 // (player, enemies, items, tiles, ...)
@@ -58,9 +57,9 @@ class Body{
     boolean right = body.pos.x + body.size.x > this.pos.x + this.size.x;
     boolean directions[] = {up, down, left, right};
     
-    return new CollisionData(this, body, p, directions);
+    return new CollisionData(this, body, p, directions); //<>//
   }
-  
+   //<>//
   // **** Utilitary functions ****
   float left(){ return pos.x; }
   float right(){ return pos.x + size.x; }
@@ -71,9 +70,8 @@ class Body{
   
   void handleBlockCollisions() {
     int collisionCount = 0;
-    int voteX = 0, voteY = 0;
-    CollisionData data = null;
-    
+    int voteX = 0; int voteY = 0;
+    HashMap<Tile, CollisionData> data = new HashMap<Tile, CollisionData>();
     int minX = floor(pos.x / cellSize);
     int minY = floor(pos.y / cellSize);
     int maxX = floor((pos.x + size.x) / cellSize);
@@ -88,10 +86,10 @@ class Body{
         CollisionData d = tile.getCollisionData(this);
         if (d == null) continue;
                 
-        data = d;
+        data.put(tile, d);
         ++collisionCount;
-        voteX += data.voteX();
-        voteY += data.voteY();
+        voteX += d.voteX();
+        voteY += d.voteY();
       }  
     }
     

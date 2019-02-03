@@ -46,9 +46,9 @@ class CollisionData {
 class FullCollisionReport {
   int collisionCount;
   int voteX, voteY;
-  CollisionData data;
+  HashMap<Tile, CollisionData> data;
   
-  FullCollisionReport(int count, int vx, int vy, CollisionData data) {
+  FullCollisionReport(int count, int vx, int vy, HashMap<Tile, CollisionData> data) {
     this.collisionCount = count;
     this.voteX = vx;
     this.voteY = vy;
