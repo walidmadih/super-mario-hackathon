@@ -85,7 +85,13 @@ class Player extends Body {
          game.play = false;
        } else {
          // Kill enemy
-         enemy.alive = false;
+         if (enemy instanceof Koopa && !((Koopa) enemy).inShell) {
+           ((Koopa) enemy).setInShell();
+         } else {
+           enemy.alive = false;
+         }
+         
+         this.pos.y = floor(this.pos.y);
          this.vel.y = GameConstants.SMASH_JUMP;
        }
     }

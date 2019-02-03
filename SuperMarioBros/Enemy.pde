@@ -57,13 +57,27 @@ class Goomba extends Enemy {
 // ************ KOOPA *************
 
 class Koopa extends Enemy {
+  boolean inShell;
   ImageSet imgSet = new ImageSet("data/img/enemies/koopa/green");
   
   // **** constructors ****
   Koopa(float x, float y) {
     super(x, y);
+    setWalking();
+  }
+  
+  void setWalking() {
+    inShell = false;
     this.size.set(cellSize, 2*cellSize);
     this.img = imgSet.get("walking").getPImage();
+    this.img.resize((int)size.x, (int)size.y);
+  }
+  
+  void setInShell() {
+    inShell = true;
+    this.pos.add(0, cellSize);
+    this.size.set(cellSize, cellSize);
+    this.img = imgSet.get("shell").getPImage();
     this.img.resize((int)size.x, (int)size.y);
   }
   
@@ -72,8 +86,13 @@ class Koopa extends Enemy {
       image(this.img, this.pos.x, this.pos.y);
     } else {
       scale(-1, 1);
-      image(this.img, -this.pos.x, this.pos.y);
+      image(this.img, -this.size.x-this.pos.x, this.pos.y);
       scale(-1, 1);
     }
+  }
+  
+  void step(float dt){
+    if (inShell) return;
+    super.step(dt);
   }
 }
