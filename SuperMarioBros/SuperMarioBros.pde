@@ -25,7 +25,7 @@ void setup() {
 void draw() {
   game.step();
   double pos = game.player.pos.x;
-  if(lastPos != 0){
+  if(lastPos != 0 && finalTilePos < 211 * cellSize ){
     if(pos > finalTilePos - 3 * cellSize){
      deltaPos = pos - lastPos;
      finalTilePos = finalTilePos + deltaPos;
