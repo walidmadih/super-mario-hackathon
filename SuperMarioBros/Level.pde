@@ -192,7 +192,6 @@ class Level {
       
       int enemyX = Integer.parseInt(properties.get("x"));
       int enemyY = Integer.parseInt(properties.get("y"));      
-      PImage image = loadImage(properties.get("imageSet/walking1.png"));
       
       if(properties.get("type").equals("goomba")) {
         Goomba goomba = new Goomba(enemyX, enemyY);
