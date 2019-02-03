@@ -166,39 +166,44 @@ class Level {
             BreakableTile breakableTile = new BreakableTile();
             breakableTile.imgSet = new ImageSet(properties.get("imageSet"));
             tileProperties.get(index).tile = breakableTile;
+            tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
           } else if (properties.get("type").equals("container")) {
             if (properties.get("content").equals("coin")) {
-              Coin coinItem = new Coin(); //TODO: put coin coordinates
+              Coin coinItem = new Coin(); 
               int n = Integer.parseInt(properties.get("n"));
               ContainerTile containerTile = new ContainerTile();
               containerTile.item = coinItem;
               containerTile.n = n;
               containerTile.imgSet = new ImageSet(properties.get("imageSet"));
               tileProperties.get(index).tile = containerTile;
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
             } else if (properties.get("content").equals("grow")) {
-              Mushroom mushroomItem = new Mushroom(); //TODO: put coin coordinates
+              Mushroom mushroomItem = new Mushroom();
               int n = Integer.parseInt(properties.get("n"));
               ContainerTile containerTile = new ContainerTile();
               containerTile.item = mushroomItem;
               containerTile.n = n;
               containerTile.imgSet = new ImageSet(properties.get("imageSet"));
               tileProperties.get(index).tile = containerTile;
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
             } else if (properties.get("content").equals("1up")) {
-              OneUp oneUpItem = new OneUp(); //TODO: put coin coordinates
+              OneUp oneUpItem = new OneUp(); 
               int n = Integer.parseInt(properties.get("n"));
               ContainerTile containerTile = new ContainerTile();
               containerTile.item = oneUpItem;
               containerTile.n = n;
               containerTile.imgSet = new ImageSet(properties.get("imageSet"));
               tileProperties.get(index).tile = containerTile;
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
             } else {
-              Star starItem = new Star(); //TODO: put coin coordinates
+              Star starItem = new Star(); 
               int n = Integer.parseInt(properties.get("n"));
               ContainerTile containerTile = new ContainerTile();
               containerTile.item = starItem;
               containerTile.n = n;
               containerTile.imgSet = new ImageSet(properties.get("imageSet"));
               tileProperties.get(index).tile = containerTile;
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
             }
           }
         } else if (properties.get("property").equals("item")) {
