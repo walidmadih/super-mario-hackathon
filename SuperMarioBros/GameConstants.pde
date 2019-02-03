@@ -1,5 +1,5 @@
 interface GameConstants {
-  float PLAYER_ACC = 0.5;
+  float PLAYER_ACC = 1.5;
   float GRAVITY = 2;
   float DAMPING = 0.90;
   
