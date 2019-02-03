@@ -31,6 +31,8 @@ class Game {
     animations.clear();
     obstacles.clear();
     activeTriggers.clear();
+    
+    items.add(new Star(10*cellSize, 10*cellSize));
 
     // load level
     level.load("data/levels/lvl1-1/lvl.txt");  
@@ -66,6 +68,10 @@ class Game {
       enemy.handleEnemyCollisions(index);
       ++index;
     }
+    
+    for(Item item: items) {
+        item.handleBlockCollisions();
+    }
 
 
     for (int i = 0; i < level.triggers.size(); i++) { 
@@ -87,6 +93,8 @@ class Game {
     }
 
     player.handleEnemyCollisions();
+    
+    
 
     // check triggers
     for (Iterator<Trigger> it = activeTriggers.iterator(); it.hasNext(); ) {
@@ -125,6 +133,11 @@ class Game {
 
     for (Enemy enemy : enemies) {
       enemy.draw();
+    }
+    
+    for(Item item: items) {
+        item.draw();
+        println("drawn");
     }
 
     player.draw();   
