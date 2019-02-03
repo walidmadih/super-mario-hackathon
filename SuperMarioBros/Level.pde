@@ -40,8 +40,12 @@ class Level {
     for (int i = 0; i < width(); i++) {
       for (int j = 0; j < height(); j++) {
         PImage bi = backgroundImages[i][j];
-        if (bi != null)
+        if (tiles[i][j] instanceof ContainerTile && bi != CONTAINER_IMAGE_SET.get("end").getPImage())
+          bi = CONTAINER_IMAGE_SET.get("begin").getPImage();
+        
+        if (bi != null) {
           image(bi, cellSize * i, cellSize * j, cellSize, cellSize);
+        }
       }
     }
   }
@@ -166,7 +170,7 @@ class Level {
             BreakableTile breakableTile = new BreakableTile();
             breakableTile.imgSet = new ImageSet(properties.get("imageSet"));
             tileProperties.get(index).tile = breakableTile;
-            tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
+            tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin1.png");
           } else if (properties.get("type").equals("container")) {
             if (properties.get("content").equals("coin")) {
               Coin coinItem = new Coin(); 
@@ -176,7 +180,7 @@ class Level {
               containerTile.n = n;
               containerTile.imgSet = new ImageSet(properties.get("imageSet"));
               tileProperties.get(index).tile = containerTile;
-              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin1.png");
             } else if (properties.get("content").equals("grow")) {
               Mushroom mushroomItem = new Mushroom();
               int n = Integer.parseInt(properties.get("n"));
@@ -185,7 +189,7 @@ class Level {
               containerTile.n = n;
               containerTile.imgSet = new ImageSet(properties.get("imageSet"));
               tileProperties.get(index).tile = containerTile;
-              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin1.png");
             } else if (properties.get("content").equals("1up")) {
               OneUp oneUpItem = new OneUp(); 
               int n = Integer.parseInt(properties.get("n"));
@@ -194,7 +198,7 @@ class Level {
               containerTile.n = n;
               containerTile.imgSet = new ImageSet(properties.get("imageSet"));
               tileProperties.get(index).tile = containerTile;
-              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin1.png");
             } else {
               Star starItem = new Star(); 
               int n = Integer.parseInt(properties.get("n"));
@@ -203,7 +207,7 @@ class Level {
               containerTile.n = n;
               containerTile.imgSet = new ImageSet(properties.get("imageSet"));
               tileProperties.get(index).tile = containerTile;
-              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin1.png");
             }
           }
         } else if (properties.get("property").equals("item")) {

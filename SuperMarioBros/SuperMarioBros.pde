@@ -6,6 +6,9 @@ double lastPos;
 double pos;
 double deltaPos;
 
+ImageSet CONTAINER_IMAGE_SET;
+
+
 // global variables
 Drawer drawer = new Drawer();
 Resources resources = new Resources();
@@ -18,6 +21,8 @@ Game game = new Game();
 void setup() {
   noSmooth(); // to get the blocky aspect
   frameRate(fps);
+  CONTAINER_IMAGE_SET = new ImageSet("data/img/tiles/imageSet1");
+  CONTAINER_IMAGE_SET.get("begin").speed = 0.3;
   game.init();
 }
 

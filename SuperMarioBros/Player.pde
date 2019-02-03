@@ -1,4 +1,7 @@
+import java.util.Map;
 class Player extends Body {
+  
+  ImageSet containerTileSet = new ImageSet("data/img/tiles/imageSet1");
   
   // ImageSets (used in Step4)
   ImageSet smallMarioSet = new ImageSet("data/img/players/mariosmall");
@@ -38,8 +41,8 @@ class Player extends Body {
     vel.add(acc.x * dt, acc.y * dt);
     if (acc.x == 0) {
        vel.x *= GameConstants.DAMPING;
-    }
-    
+    } //<>//
+     //<>//
     
     restrictVelocity();     
     pos.add(vel); //<>//
@@ -91,9 +94,29 @@ class Player extends Body {
   
   void handleCollision(FullCollisionReport collision) {
     isOnGround = (collision.voteY < 0);
+   if(collision.voteY > 0){
+    //if the collision is from under
+    
+     for(Map.Entry<Tile, CollisionData> me : collision.data.entrySet()){
+       Tile t = me.getKey();
+       int posX = (int) t.pos.x / cellSize;
+       int posY = (int) t.pos.y / cellSize;
+       if(t instanceof SolidTile){
+         
+       }else if(t instanceof BreakableTile){
+         game.level.tiles[posX][posY] = null;
+         game.level.backgroundImages[posX][posY] = null;
+         
+         //have a preset block explosion coordinate and instance it at posX and posY
+         
+       }else if(t instanceof ContainerTile){
+         game.level.backgroundImages[posX][posY] = CONTAINER_IMAGE_SET.get("end").getPImage();
+         //pop up an item
+       } //<>//
+     }
+    
+   }
   }
-  
-  
   
   void handleEnemyCollisions() {
     for (Enemy enemy : game.enemies) {
@@ -107,7 +130,7 @@ class Player extends Body {
        }
        
        if (data.direction[DIR_DOWN] || !data.direction[DIR_UP] || abs((float)data.p[0]) < abs((float)data.p[1])) {
-         if (enemy instanceof Koopa && koopaInvincibility > 0) continue;
+         if (enemy instanceof Koopa && koopaInvincibility > 0) continue; //<>//
          
          // Kill player
          println("player dead");
