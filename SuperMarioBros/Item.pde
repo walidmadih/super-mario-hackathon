@@ -195,6 +195,7 @@ class Star extends Item {
   }
   
   void handleCollision(FullCollisionReport collision) {
+    super.handleCollision(collision);
     boolean isOnGround = (collision.voteY < 0);
     if(isOnGround) {
       this.vel.y = GameConstants.STAR_JUMP;

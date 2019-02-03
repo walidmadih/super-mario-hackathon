@@ -33,8 +33,6 @@ class Game {
     obstacles.clear();
     activeTriggers.clear();
     
-    items.add(new Star(10*cellSize, 10*cellSize));
-
     // load level
     level.load("data/levels/lvl1-1/lvl.txt");  
     activeTriggers = level.copyTriggersArray();
@@ -136,7 +134,6 @@ class Game {
     
     for(Item item: items) {
         item.draw();
-        println("drawn");
     }
 
     player.draw();   
