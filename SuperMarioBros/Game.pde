@@ -109,7 +109,7 @@ class Game {
     drawer.draw("1-1", 338 + (float)initialTilePos, 140);
     drawer.draw("TIME", 550 + (float)initialTilePos, 160);
     drawer.draw(nf(timeText, 3), 563 + (float)initialTilePos, 140);
-      if(millis() - lastTime >= 1000){
+      if(millis() - lastTime >= 1000/2.5){
         timeText--;
         lastTime = millis();
       }
