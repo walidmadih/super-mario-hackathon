@@ -49,10 +49,17 @@ class Player extends Body {
      boolean up = Keyboard.isPressed(87);
      if (up && isOnGround) {
       vel.y = GameConstants.PLAYER_JUMP;
-    }
+      this.img = imgSet.get("jump").getPImage();
+      img.resize(cellSize, cellSize);
+     }
     
-    if (Keyboard.isPressed(83)) { 
+    boolean down = Keyboard.isPressed(83);
+    if (down) { 
       // TODO: implement crouch 
+      if (isOnGround){
+        this.img = imgSet.get("crouch").getPImage();
+        img.resize(cellSize, cellSize);
+      }
       //pos.y += dt;
     }
     
@@ -61,8 +68,16 @@ class Player extends Body {
     boolean right = Keyboard.isPressed(68);
     if (left != right) {
       acc.x = GameConstants.PLAYER_ACC * (right ? 1 : -1); 
+      if(isOnGround && !up){
+        this.img = imgSet.get("run").getPImage();
+        img.resize(cellSize, cellSize);
+      }
     } else {
       acc.x = 0;
+      if (isOnGround && !up && !down){
+        this.img = imgSet.get("idle").getPImage();
+        img.resize(cellSize, cellSize);
+      }
     }
   }
   
@@ -84,6 +99,8 @@ class Player extends Body {
        if (data.direction[DIR_DOWN] || !data.direction[DIR_UP] || abs((float)data.p[0]) < abs((float)data.p[1])) {
          // Kill player
          println("player dead");
+         this.img = imgSet.get("dead").getPImage();
+         img.resize(cellSize, cellSize);
          game.play = false;
        } else {
          // Kill enemy
