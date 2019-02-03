@@ -133,7 +133,11 @@ class Game {
     }
     
     for(Item item: items) {
-        item.draw();
+      item.draw();
+    }
+    
+    for(Animation animation: animations){
+      animation.draw(); 
     }
 
     player.draw();   
