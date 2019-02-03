@@ -95,12 +95,13 @@ class Body{
     
     if (collisionCount == 0) return;
     if (collisionCount == 1) {
-      if (abs((float)data.p[0]) >= abs((float)data.p[1])){
+      CollisionData d = data.values().iterator().next();
+      if (abs((float)d.p[0]) >= abs((float)d.p[1])){
         this.vel.y = 0;
-        this.pos.y = cellSize * ((data.p[1] > 0) ? floor(this.pos.y/cellSize) : ceil(this.pos.y/cellSize));
+        this.pos.y = cellSize * ((d.p[1] > 0) ? floor(this.pos.y/cellSize) : ceil(this.pos.y/cellSize));
       } else {
         this.vel.x = 0;
-        this.pos.x = cellSize * ((data.p[0] > 0) ? floor(this.pos.x/cellSize) : ceil(this.pos.x/cellSize));
+        this.pos.x = cellSize * ((d.p[0] > 0) ? floor(this.pos.x/cellSize) : ceil(this.pos.x/cellSize));
       }
       handleCollision(new FullCollisionReport(collisionCount, voteX, voteY, data));
       return;
@@ -156,7 +157,7 @@ class Body{
     handleCollision(new FullCollisionReport(collisionCount, voteX, voteY, data));
   }
    //<>//
-  void draw(){
+  void draw(){ //<>//
     if (this.img == null) {
       fill(255,0,0);
       strokeWeight(0);
