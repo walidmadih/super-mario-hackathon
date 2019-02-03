@@ -41,16 +41,16 @@ class Game {
     player.pos.set(0.5 * cellSize, 10 * cellSize);
     //TODO(step1): position and size player
 
-    Enemy enemy = new Goomba(43*cellSize, 11*cellSize);
-    enemies.add(enemy);
-
+    enemies.add(new Goomba(43*cellSize, 11*cellSize));
+    enemies.add(new Koopa(7*cellSize, 4*cellSize));
+    
     play = true;
     time = 0;
   }
 
 
   void step() {
-    //TODO(step1): skip this if "play" is false
+    if (!play) return;
 
     // step all
     player.step(dt);    
@@ -62,6 +62,8 @@ class Game {
     // check collisions
     player.handleBlockCollisions();
     for (Enemy enemy : enemies) enemy.handleBlockCollisions();
+
+    player.handleEnemyCollisions();
 
     // check triggers
     for (Iterator<Trigger> it = activeTriggers.iterator(); it.hasNext(); ) {
@@ -87,8 +89,9 @@ class Game {
   
   
   void draw() {
+    
+    if (!play) return;
 
-    //TODO(step1): replace this with a checkerboard pattern and a "plus" sign at the origin
     float hr = height / 14.0;
     float wr = width / 224.0;   
     int score = 000000;

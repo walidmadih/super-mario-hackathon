@@ -172,16 +172,6 @@ class Image{
   void setSpeed(float speed){ this.speed = speed; }
 }
 
-
-
-
-
-
-
-
-
-
-
 class ImageSet{
   String path;
   HashMap<String, Image> map = new HashMap<String, Image>(11); // small hashmap should be sufficient
