@@ -9,9 +9,7 @@ class Game {
   int lastTime = 0;
   Window window;
   Player player;
-  float locationX;
-  float locationY;
-
+  
   ArrayList<Item> items = new ArrayList<Item>();
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   ArrayList<Animation> animations = new ArrayList<Animation>();
@@ -19,6 +17,7 @@ class Game {
   ArrayList<Trigger> activeTriggers = new ArrayList<Trigger>();
 
   Game() {
+    
   }
 
   void init() {
@@ -42,6 +41,8 @@ class Game {
     player.pos.set(0.5 * cellSize, 10 * cellSize);
     //TODO(step1): position and size player
 
+    Enemy enemy = new Goomba(43*cellSize, 11*cellSize);
+    enemies.add(enemy);
 
     play = true;
     time = 0;
@@ -61,24 +62,6 @@ class Game {
     // check collisions
     player.handleBlockCollisions();
     for (Enemy enemy : enemies) enemy.handleBlockCollisions();
-
-    for (int i = 0; i < level.triggers.size(); i++) { 
-      println(level.triggers.get(i).enemy.pos.x * cellSize + " " + SuperMarioBros.finalTilePos);
-      if ((SuperMarioBros.finalTilePos - level.triggers.get(i).enemy.pos.x * cellSize) < 1*cellSize && level.triggers.get(i).enemy.spawned == false) {
-        locationX = level.triggers.get(i).enemy.pos.x;
-        locationY = level.triggers.get(i).enemy.pos.y;
-        Enemy enemy;
-        if (level.triggers.get(i).enemy instanceof Goomba) {
-          enemy = new Goomba(locationX * cellSize, cellSize * locationY);
-        } else {
-          enemy = new Koopa(locationX * cellSize, cellSize * locationY);
-        }
-
-        enemies.add(enemy);
-        enemy.spawned = true;
-        println("Enemy Spawned");
-      }
-    }
 
     // check triggers
     for (Iterator<Trigger> it = activeTriggers.iterator(); it.hasNext(); ) {
@@ -101,8 +84,8 @@ class Game {
 
     time += dt;
   }
-
-
+  
+  
   void draw() {
 
     //TODO(step1): replace this with a checkerboard pattern and a "plus" sign at the origin
@@ -110,14 +93,14 @@ class Game {
     float wr = width / 224.0;   
     int score = 000000;
     int lives = 03;
-
-
+    
+    
     level.drawBackgroundImages();
-
+    
     for (Enemy enemy : enemies) {
       enemy.draw();
     }
-
+    
     player.draw();   
     drawer.draw("MARIO", 10 + (float)initialTilePos, 160);
     drawer.draw(nf(score, 6), 10 + (float)initialTilePos, 140);
@@ -125,11 +108,15 @@ class Game {
     drawer.draw("WORLD", 325 + (float)initialTilePos, 160);
     drawer.draw("1-1", 338 + (float)initialTilePos, 140);
     drawer.draw("TIME", 550 + (float)initialTilePos, 160);
-    drawer.draw(nf(timeText, 3), 563 + (float)initialTilePos, 140);
-    if (millis() - lastTime >= 1000/2.5) {
-      timeText--;
-      lastTime = millis();
-    }
+    drawer.draw(nf(time, 3), 563 + (float)initialTilePos, 140);
+      if(millis() - lastTime >= 1000){
+        time--;
+        println(time);
+        lastTime = millis();
+      }
     //TODO(step1): draw the player.
-  }
+  } 
+  
+
+ 
 }
