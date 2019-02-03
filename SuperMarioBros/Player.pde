@@ -20,6 +20,7 @@ class Player extends Body {
   
   boolean alive = true;
   boolean isCrouching;
+  boolean isOnGround;
   
   ImageSet imgSet;      
         
@@ -27,7 +28,7 @@ class Player extends Body {
     this.size = new Vec2(cellSize, 2*cellSize);
   }
      
-  void step(float dt){    
+  void step(float dt){
     handleControls();
     vel.add(acc.x * dt, acc.y * dt);
     if (acc.x == 0) {
@@ -36,14 +37,15 @@ class Player extends Body {
     
     
     restrictVelocity();     
-    pos.add(vel); //<>//
+    pos.add(vel);
+    isOnGround = false; //<>//
   }
   
   void handleControls() {
     acc.y = GameConstants.GRAVITY;
     
      boolean up = Keyboard.isPressed(87);
-     if (up) {
+     if (up && isOnGround) {
       vel.y = GameConstants.PLAYER_JUMP;
     }
     
@@ -67,6 +69,10 @@ class Player extends Body {
     vel.y = min(GameConstants.GRAVITY_MAX_SPEED, vel.y);
   }
   
+  void handleCollision(FullCollisionReport collision) {
+    isOnGround = (collision.voteY < 0);
+  }
+    
   void interactWith(Tile tile){ //<>// //<>//
   }   
   

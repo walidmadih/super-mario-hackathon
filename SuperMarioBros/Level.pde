@@ -232,7 +232,6 @@ class Level {
 
       int enemyX = Integer.parseInt(properties.get("x"));
       int enemyY = Integer.parseInt(properties.get("y"));
-      println(properties.get("imageSet"));
 
 
       if (properties.get("type").equals("goomba")) {

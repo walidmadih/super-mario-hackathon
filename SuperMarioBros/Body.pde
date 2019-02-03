@@ -73,8 +73,10 @@ class Body{
     if (collisionCount == 0) return;
     if (collisionCount == 1) {
       if (abs((float)data.p[0]) >= abs((float)data.p[1])){
+        this.vel.y = 0;
         this.pos.y = cellSize * ((data.p[1] > 0) ? floor(this.pos.y/cellSize) : ceil(this.pos.y/cellSize));
       } else {
+        this.vel.x = 0;
         this.pos.x = cellSize * ((data.p[0] > 0) ? floor(this.pos.x/cellSize) : ceil(this.pos.x/cellSize));
       }
       handleCollision(new FullCollisionReport(collisionCount, voteX, voteY, data));
@@ -87,6 +89,7 @@ class Body{
 
       public void run() {
       if (finalVoteY != 0) {
+        Body.this.vel.y = 0;
         Body.this.pos.y = cellSize * ((finalVoteY < 0) ? floor(Body.this.pos.y/cellSize) : ceil(Body.this.pos.y/cellSize));
       }
     }};
@@ -94,6 +97,7 @@ class Body{
     Runnable run2 = new Runnable() {
        public void run() {
          if (finalVoteX != 0) {
+           Body.this.vel.x = 0;
            Body.this.pos.x = cellSize * ((finalVoteX < 0) ? floor( Body.this.pos.x/cellSize) : ceil( Body.this.pos.x/cellSize));
         }
        }
