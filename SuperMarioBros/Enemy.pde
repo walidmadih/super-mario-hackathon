@@ -47,6 +47,9 @@ abstract class Enemy extends Body {
       boolean thisShell = (this instanceof Koopa) && ((Koopa)this).inShell && ((Koopa)this).shellDirection != 0;
       boolean otherShell = (enemy instanceof Koopa) && ((Koopa)enemy).inShell && ((Koopa)enemy).shellDirection != 0;
       
+      Image deadGoomba = new ImageSet("data/img/enemies/goomba/brown").get("dead");
+      Image deadKoopa = new ImageSet("data/img/enemies/koopa/green").get("dead");
+      
       if (thisShell) {
         if (otherShell) {
           this.alive = false;
@@ -54,10 +57,12 @@ abstract class Enemy extends Body {
           return;
         } else {
           enemy.alive = false;
+          game.animations.add(new ParticleAnimation(this.pos.copy(), new Vec2(3, -20), enemy instanceof Goomba ? deadGoomba : deadKoopa, cellSize, cellSize));
         }
       } else {
         if (otherShell) {
           this.alive = false;
+          game.animations.add(new ParticleAnimation(this.pos.copy(), new Vec2(3, -20), this instanceof Goomba ? deadGoomba : deadKoopa, cellSize, cellSize));
           return;
         } else {
           this.direction = !this.direction;

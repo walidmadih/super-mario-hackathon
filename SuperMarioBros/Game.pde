@@ -12,7 +12,7 @@ class Game {
   Player player;
   float locationX;
   float locationY;
-  int score, lives;
+  int score, lives = 01;
 
   ArrayList<Item> items = new ArrayList<Item>();
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();

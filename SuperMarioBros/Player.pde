@@ -1,4 +1,4 @@
-import java.util.Map; //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+import java.util.Map; //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 class Player extends Body {
 
   ImageSet containerTileSet = new ImageSet("data/img/tiles/imageSet1");
@@ -36,7 +36,9 @@ class Player extends Body {
   Player() {
     this.imgName = "idle";
     this.size = new Vec2(cellSize, cellSize);
-    this.img = imgSet.get(imgName).getPImage();
+    Image i = imgSet.get(imgName);
+    i.speed = 0.6;
+    this.img = i.getPImage();
     img.resize((int) size.x, (int) size.y);
   } //<>//
 
@@ -70,7 +72,9 @@ class Player extends Body {
     if (up && isOnGround) {
       imgName = "jump";
       vel.y = GameConstants.PLAYER_JUMP;
-      this.img = imgSet.get(imgName).getPImage();
+      Image i = imgSet.get(imgName);
+      i.speed = 0.6;
+      this.img = i.getPImage();
       img.resize((int) size.x, (int) size.y);
     }
 
@@ -79,7 +83,9 @@ class Player extends Body {
       // TODO: implement crouch 
       if (isOnGround) {
         imgName = "crouch";
-        this.img = imgSet.get(imgName).getPImage();
+        Image i = imgSet.get(imgName);
+        i.speed = 0.6;
+        this.img = i.getPImage();
         img.resize((int) size.x, (int) size.y);
       }
       //pos.y += dt;
@@ -92,15 +98,19 @@ class Player extends Body {
       acc.x = GameConstants.PLAYER_ACC * (right ? 1 : -1); 
       if (isOnGround && !up) {
         imgName = "run";
-        this.img = imgSet.get(imgName).getPImage(); //<>//
-        img.resize((int) size.x, (int) size.y);
+        Image i = imgSet.get(imgName);
+    i.speed = 0.6;
+    this.img = i.getPImage();
+    img.resize((int) size.x, (int) size.y); //<>//
       }
     } else {
       acc.x = 0;
       if (isOnGround && !up && !down) {
         imgName = "idle";
-        this.img = imgSet.get(imgName).getPImage();
-        img.resize((int) size.x, (int) size.y);
+        Image i = imgSet.get(imgName);
+    i.speed = 0.6;
+    this.img = i.getPImage();
+    img.resize((int) size.x, (int) size.y);
       }
     }
   }
@@ -112,6 +122,8 @@ class Player extends Body {
 
   void handleCollision(FullCollisionReport collision) {
     isOnGround = (collision.voteY < 0);
+    if (pos.x > 199*cellSize) {game.play = false; return;}
+    
     if (collision.voteY > 0) {
       //if the collision is from under
 
@@ -120,9 +132,9 @@ class Player extends Body {
         int posX = (int) t.pos.x / cellSize;
         int posY = (int) t.pos.y / cellSize;
         for (Enemy e : game.enemies) {
-          if (collision.voteY < 0) {
+          if (e.alive && abs(e.pos.x - t.pos.x) < cellSize && abs(e.pos.y - t.pos.y + 1) <= cellSize) {
             e.alive = false;
-            game.animations.add(new ParticleAnimation(t.pos.copy(), new Vec2(2, 8), goombaSet.get("dead"), cellSize, cellSize));
+            game.animations.add(new ParticleAnimation(t.pos.copy(), new Vec2(3, -20), goombaSet.get("dead"), cellSize, cellSize));
           }
         }
         if (t instanceof SolidTile) {
@@ -155,6 +167,7 @@ class Player extends Body {
               ImageSet imgSet = new ImageSet("data/img/items/coin");
               Image imgTemp = imgSet.get("bounce");
               imgTemp.speed = 0.6;
+              game.score += 10;
               
               game.animations.add(new CoinAnimation(new Vec2(ti.pos.x, ti.pos.y), new Vec2(0, -20), imgTemp , cellSize, cellSize));
               
@@ -202,12 +215,14 @@ class Player extends Body {
         println("player hit");
         if (state.onHit == null) {
           imgName = "dead";
-          this.img = imgSet.get(imgName).getPImage();
-          img.resize((int) size.x, (int) size.y);
+          Image i = imgSet.get(imgName);
+    i.speed = 0.6;
+    this.img = i.getPImage();
+    img.resize((int) size.x, (int) size.y);
           game.play = false;
         } else {
           setMarioState(state.onHit);
-          invincibility = -fps*3;
+          invincibility = -fps;
         }
       } else {
         // Kill enemy
@@ -276,7 +291,11 @@ class Player extends Body {
     if (newState == null || state == newState) return;
 
     this.imgSet = newState.imageSet;
-    this.img = imgSet.get(imgName).getPImage();
+    Image i = imgSet.get(imgName);
+    i.speed = 0.6;
+        this.img = i.getPImage();
+        img.resize((int) size.x, (int) size.y);
+
 
     // Check if going from small to big
     if (state == MarioState.SMALL) {
