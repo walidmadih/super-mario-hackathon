@@ -1,0 +1,62 @@
+[1mdiff --git a/SuperMarioBros/Body.pde b/SuperMarioBros/Body.pde[m
+[1mindex e6f0e62..ebc52a0 100644[m
+[1m--- a/SuperMarioBros/Body.pde[m
+[1m+++ b/SuperMarioBros/Body.pde[m
+[36m@@ -94,7 +94,7 @@[m [mclass Body{[m
+   [m
+   void draw(){[m
+     //TODO(step1): draw body as a rectangle.[m
+[31m-    fill(255,0,0);[m
+[32m+[m[32m    fill(100,0,0);[m
+     strokeWeight(0);[m
+     rect(this.pos.x , this.pos.y, this.size.x, this.size.y);[m
+   };[m
+[1mdiff --git a/SuperMarioBros/Game.pde b/SuperMarioBros/Game.pde[m
+[1mindex 235bda8..5a1f916 100644[m
+[1m--- a/SuperMarioBros/Game.pde[m
+[1m+++ b/SuperMarioBros/Game.pde[m
+[36m@@ -99,9 +99,11 @@[m [mclass Game {[m
+     float hr = height / 14.0;[m
+     float wr = width / 224.0;    [m
+     [m
+[31m-    [m
+     level.drawBackgroundImages();[m
+[31m-    player.draw();[m
+[32m+[m[32m    player.draw();[m[41m   [m
+[32m+[m[32m    drawer.draw("MARIO", 50, 50);[m
+[32m+[m[41m    [m
+[32m+[m[32m    println(player.pos.x + " " + player.pos.y + " " + player.size.x + " " + player.size.y);[m
+     //TODO(step1): draw the player.[m
+   }[m
+   [m
+[1mdiff --git a/SuperMarioBros/Utils.pde b/SuperMarioBros/Utils.pde[m
+[1mindex dcabbdd..e93bebf 100644[m
+[1m--- a/SuperMarioBros/Utils.pde[m
+[1m+++ b/SuperMarioBros/Utils.pde[m
+[36m@@ -85,7 +85,7 @@[m [menum Shape{ RECTANGLE, ELLIPSE };[m
+ final char CROSS = '+';[m
+ [m
+ class Drawer{[m
+[31m-  float fontSize = .5;[m
+[32m+[m[32m  float fontSize = 16;[m
+   [m
+   // **** Shape ****[m
+   void draw(Shape shape, float x, float y, float sx, float sy){ // rectangle[m
+[36m@@ -128,11 +128,16 @@[m [mclass Drawer{[m
+     } else {[m
+       pos = w*39;[m
+     }[m
+[31m-    draw(resources.getSprite("data/img/font.png").get(pos,0,w,w), x, y);[m
+[32m+[m[32m    PImage img = resources.getSprite("data/img/font.png").get(pos,0,w,w);[m
+[32m+[m[32m    img.resize(0, 250);[m
+[32m+[m[32m    draw(img, x, y);[m
+   }[m
+   void draw(String str, float x, float y){ // String[m
+[32m+[m[32m    pushMatrix();[m
+[32m+[m[32m    scale(1, -1);[m
+     for(int i = 0; i < str.length(); ++i)[m
+       draw(str.charAt(i), x+fontSize*i, y);[m
+[32m+[m[32m    popMatrix();[m
+   }[m
+ }[m
+ [m
