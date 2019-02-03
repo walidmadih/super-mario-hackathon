@@ -91,6 +91,14 @@ class Player extends Body {
   
   void handleCollision(FullCollisionReport collision) {
     isOnGround = (collision.voteY < 0);
+    for(HashMap.Entry<Tile, CollisionData> entry : collision.data.entrySet()) {
+      if(entry.getKey() instanceof ContainerTile) {
+        CollisionData data = entry.getValue();
+        if(data.voteY > 0) {
+        
+        }
+      }
+    }
   }
   
   
