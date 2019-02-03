@@ -49,6 +49,8 @@ class Player extends Body {
     restrictVelocity();     
     pos.add(vel); //<>//
     isOnGround = false; //<>//
+    
+    pos.x = max((float)initialTilePos, pos.x);
   }
   
   void handleControls() {
@@ -104,15 +106,16 @@ class Player extends Body {
        int posX = (int) t.pos.x / cellSize;
        int posY = (int) t.pos.y / cellSize;
        for(Enemy e : game.enemies){
-         if(e.pos.x > t.pos.x && e.pos.x < t.pos.x + 16){
-           game.animations.add(new ParticleAnimation(t.pos.copy().add(0,cellSize / 2.0), new Vec2(-2, -8), goombaSet.get("dead"), 1, 1));
+         if(collision.voteY < 0){
+           e.alive = false;
+           game.animations.add(new ParticleAnimation(t.pos.copy(), new Vec2(2, 8), goombaSet.get("dead"), cellSize, cellSize));
          }
        }
        if(t instanceof SolidTile){
-         
+          //<>//
        }else if(t instanceof BreakableTile){
          game.level.tiles[posX][posY] = null;
-         game.level.backgroundImages[posX][posY] = null; //<>//
+         game.level.backgroundImages[posX][posY] = null;
          
          Image left = brokenBlockSet.get("pieceLeft");
          Image right = brokenBlockSet.get("pieceRight");
@@ -127,10 +130,10 @@ class Player extends Body {
          //pop up an item
        } //<>//
      }
-    
+     //<>//
    }
   }
-   //<>//
+  
   void handleEnemyCollisions() {
     for (Enemy enemy : game.enemies) {
        CollisionData data = enemy.getCollisionData(this);

@@ -75,7 +75,7 @@ class Game {
 
     for (int i = 0; i < level.triggers.size(); i++) { 
       
-      if ((level.triggers.get(i).enemy.pos.x - SuperMarioBros.finalTilePos/cellSize) < 10) {
+      if ((level.triggers.get(i).enemy.pos.x - SuperMarioBros.finalTilePos/cellSize) < 5) {
         locationX = level.triggers.get(i).enemy.pos.x;
         locationY = level.triggers.get(i).enemy.pos.y;
         Enemy enemy;
