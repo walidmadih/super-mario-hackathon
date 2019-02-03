@@ -14,13 +14,13 @@ abstract class Enemy extends Body {
   }
     
   // **** stepping ****
-  void step(float dt){
+  void step(float absStep, boolean dir){
     if(!alive) return; //<>//
     
     vel.y += GameConstants.GRAVITY;
     vel.y = min(GameConstants.GRAVITY_MAX_SPEED, vel.y);
     
-    double step = GameConstants.GOOMBA_SPEED * dt * (direction ? 1 : -1);
+    double step = absStep * (dir ? 1 : -1);
     this.pos.x += step;
     this.pos.y += vel.y;
      //<>//
@@ -50,6 +50,10 @@ class Goomba extends Enemy {
     this.size.set(cellSize, cellSize);
     this.img = imgSet.get("walking").getPImage();
     this.img.resize((int)size.x, (int)size.y);
+  }
+  
+  void step(float s) {
+   super.step(GameConstants.GOOMBA_SPEED * s, direction); 
   } //<>//
 }
 
@@ -58,6 +62,7 @@ class Goomba extends Enemy {
 
 class Koopa extends Enemy {
   boolean inShell;
+  int shellDirection;
   ImageSet imgSet = new ImageSet("data/img/enemies/koopa/green");
   
   // **** constructors ****
@@ -92,7 +97,19 @@ class Koopa extends Enemy {
   }
   
   void step(float dt){
-    if (inShell) return;
-    super.step(dt);
+    float speed = inShell ? GameConstants.SHELL_SPEED : GameConstants.KOOPA_SPEED;
+    if (inShell&&shellDirection == 0) speed = 0;
+    super.step(speed * dt, inShell ? shellDirection > 0 : direction);
+  }
+  
+  void handleCollision(FullCollisionReport collision) {    
+    if (collision.voteX > 0) {
+      if (inShell) shellDirection = 1;
+      else direction = true;
+      
+    } else if (collision.voteX < 0) {
+      if (inShell) shellDirection = -1;
+      else direction = false;
+    }
   }
 }

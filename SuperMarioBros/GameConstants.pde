@@ -9,4 +9,8 @@ interface GameConstants {
   float SMASH_JUMP = -20;
 
   float GOOMBA_SPEED = 2;
+  float KOOPA_SPEED = 2;
+  float SHELL_SPEED = 10;
+  
+  int KOOPA_KICK_INVINCIBILITY = 10;
 }
