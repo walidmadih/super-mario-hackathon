@@ -1,3 +1,43 @@
+void absorbGreenMushroom() {
+  game.score += GameConstants.SCORE_ONE_UP;
+}
+
+void absorbGrowMushroom() {
+  game.score += GameConstants.SCORE_GROW;
+  if (game.player.state == MarioState.SMALL) {
+    game.player.setMarioState(MarioState.BIG);
+  }
+}
+
+void absorbFlower() {
+  game.score += GameConstants.SCORE_GROW;
+  game.player.setMarioState(MarioState.FLOWER);
+}
+
+void absorbStar() {
+  game.player.invincibility = fps * 10;
+}
+
+enum MarioState {
+  
+  SMALL("data/img/players/mariosmall"),
+  BIG("data/img/players/mariobig"),
+  FLOWER("data/img/players/mariobigflower");
+  
+  private MarioState(String imgset) {
+    this.imgsetUrl = imgset;
+  }
+  
+  MarioState onHit;
+  String imgsetUrl;
+  ImageSet imageSet;
+  
+  void init(MarioState onHit, SuperMarioBros bros) {
+    this.onHit = onHit;
+    this.imageSet = bros.new ImageSet(imgsetUrl);
+  }
+}
+
 enum Direction{
   UP, DOWN, LEFT, RIGHT, NONE
 }

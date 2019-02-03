@@ -12,6 +12,7 @@ class Game {
   Player player;
   float locationX;
   float locationY;
+  int score, lives;
 
   ArrayList<Item> items = new ArrayList<Item>();
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -116,9 +117,7 @@ class Game {
     if (!play) return;
 
     float hr = height / 14.0;
-    float wr = width / 224.0;   
-    int score = 000000;
-    int lives = 03;
+    float wr = width / 224.0;
 
 
     level.drawBackgroundImages();
