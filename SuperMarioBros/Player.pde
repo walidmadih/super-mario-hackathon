@@ -27,7 +27,9 @@ class Player extends Body {
   int invincibility = 0;
   String imgName;
   MarioState state = MarioState.SMALL;
-  ImageSet imgSet = MarioState.SMALL.imageSet;   
+  ImageSet imgSet = MarioState.SMALL.imageSet;
+  
+  Vec2 prevPos;
 
   Player() {
     this.imgName = "idle";
@@ -36,9 +38,9 @@ class Player extends Body {
     img.resize((int) size.x, (int) size.y);
   }
 
-  void step(float dt) {
+  void step(float dt) { //<>//
     if (koopaInvincibility > 0) --koopaInvincibility;
-    if (invincibility > 0) --invincibility; //<>// //<>//
+    if (invincibility > 0) --invincibility; //<>//
     if (invincibility < 0) ++invincibility;
 
     handleControls();
@@ -88,9 +90,9 @@ class Player extends Body {
         imgName = "run";
         this.img = imgSet.get(imgName).getPImage();
         img.resize((int) size.x, (int) size.y);
-      }
+      } //<>//
     } else {
-      acc.x = 0; //<>//
+      acc.x = 0;
       if (isOnGround && !up && !down) {
         imgName = "idle";
         this.img = imgSet.get(imgName).getPImage();
@@ -152,8 +154,14 @@ class Player extends Body {
         game.score += GameConstants.SCORE_KILL_ENEMY;
         continue;
       }
+      
+      
+      Vec2 diff = this.pos.copy().sub(enemy.pos);
+      if (state != MarioState.SMALL) diff.add(0, cellSize);
+      if (enemy.size.y > cellSize) diff.sub(0, cellSize);
 
-      if (data.direction[DIR_DOWN] || !data.direction[DIR_UP] || abs((float)data.p[0]) < abs((float)data.p[1])) {
+      if (data.direction[DIR_DOWN] || !data.direction[DIR_UP] || diff.y >= 0) {
+        println(diff);
         if (enemy instanceof Koopa && koopaInvincibility > 0) continue;
         if (invincibility < 0) continue;
         // Kill player

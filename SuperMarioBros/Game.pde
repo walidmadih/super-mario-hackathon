@@ -52,6 +52,8 @@ class Game {
 
   void step() {
     if (!play) return;
+    
+    player.prevPos = player.pos.copy();
 
     // step all
     player.step(dt);    
