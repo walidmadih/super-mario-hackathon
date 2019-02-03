@@ -36,6 +36,37 @@ abstract class Enemy extends Body {
       direction = false;
     }
   }
+  
+  void handleEnemyCollisions(int i) {
+    for (Iterator<Enemy> it = game.enemies.listIterator(i); it.hasNext();) {
+      Enemy enemy = it.next();
+      if (enemy == this) continue;
+      
+      CollisionData data = enemy.getCollisionData(this);
+      if (data == null) continue;
+      
+      boolean thisShell = (this instanceof Koopa) && ((Koopa)this).inShell && ((Koopa)this).shellDirection != 0;
+      boolean otherShell = (enemy instanceof Koopa) && ((Koopa)enemy).inShell && ((Koopa)enemy).shellDirection != 0;
+      
+      if (thisShell) {
+        if (otherShell) {
+          this.alive = false;
+          enemy.alive = false;
+          return;
+        } else {
+          enemy.alive = false;
+        }
+      } else {
+        if (otherShell) {
+          this.alive = false;
+          return;
+        } else {
+          this.direction = !this.direction;
+          enemy.direction = !enemy.direction;
+        }
+      }
+    }
+  }
 }
  //<>//
  //<>//
@@ -114,4 +145,5 @@ class Koopa extends Enemy {
       else direction = false;
     }
   }
+  
 }
