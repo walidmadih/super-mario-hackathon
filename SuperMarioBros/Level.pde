@@ -9,7 +9,7 @@ class Level {
   PImage[][] backgroundImages = new PImage[0][0];
   Tile[][] tiles = new Tile[0][0];
   Item[][] staticItems = new Item[0][0];
-  ArrayList<Trigger> triggers = new ArrayList<Trigger>(); 
+  ArrayList<EnemyTrigger> triggers = new ArrayList<EnemyTrigger>(); 
 
   Level() {
   }
@@ -214,8 +214,8 @@ class Level {
     return tileProperties;
   }
 
-  private ArrayList<Trigger> loadTriggers(String file) {
-    ArrayList<Trigger> triggers = new ArrayList<Trigger>();
+  private ArrayList<EnemyTrigger> loadTriggers(String file) {
+    ArrayList<EnemyTrigger> triggers = new ArrayList<EnemyTrigger>();
     String[] lines = loadStrings(file);
     for (String line : lines) {
 
