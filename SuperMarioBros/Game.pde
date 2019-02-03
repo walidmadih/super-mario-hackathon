@@ -41,6 +41,7 @@ class Game {
     // TODO(step1): position window
 
     player = new Player();
+    player.setMarioState(MarioState.BIG);
     player.pos.set(0.5 * cellSize, 10 * cellSize);
     //TODO(step1): position and size player
 
@@ -71,6 +72,8 @@ class Game {
     for(Item item: items) {
         item.handleBlockCollisions();
     }
+    
+    player.handleItemCollisions();
 
 
     for (int i = 0; i < level.triggers.size(); i++) { 
@@ -119,9 +122,6 @@ class Game {
 
 
   void draw() {
-    
-    if (!play) return;
-
     float hr = height / 14.0;
     float wr = width / 224.0;
 
