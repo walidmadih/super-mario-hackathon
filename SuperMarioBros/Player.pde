@@ -44,12 +44,17 @@ class Player extends Body {
     handleControls();
     vel.add(acc.x * dt, acc.y * dt);
     if (acc.x == 0) {
-      vel.x *= GameConstants.DAMPING; //<>//
+      vel.x *= GameConstants.DAMPING;
     }
 
     restrictVelocity();     
-    pos.add(vel); //<>//
-    isOnGround = false; //<>//
+    pos.add(vel); 
+    isOnGround = false;
+    
+    if (pos.y > height) {
+      alive = false;
+      game.play = false;
+    }
   }
 
   void handleControls() {
@@ -85,12 +90,12 @@ class Player extends Body {
         img.resize((int) size.x, (int) size.y);
       }
     } else {
-      acc.x = 0;
+      acc.x = 0; //<>//
       if (isOnGround && !up && !down) {
         imgName = "idle";
         this.img = imgSet.get(imgName).getPImage();
         img.resize((int) size.x, (int) size.y);
-      } //<>// //<>//
+      } //<>//
     }
   }
 
@@ -137,17 +142,19 @@ class Player extends Body {
 
       if (invincibility > 0) {
         enemy.alive = false;
+        game.score += GameConstants.SCORE_KILL_ENEMY;
         continue;
       }
 
       if (enemy instanceof Koopa && ((Koopa)enemy).inShell && ((Koopa)enemy).shellDirection == 0) {
         koopaInvincibility = GameConstants.KOOPA_KICK_INVINCIBILITY;
-        ((Koopa)enemy).shellDirection = (data.direction[DIR_LEFT] ? 1 : -1); //<>//
+        ((Koopa)enemy).shellDirection = (data.direction[DIR_LEFT] ? 1 : -1);
+        game.score += GameConstants.SCORE_KILL_ENEMY;
         continue;
       }
 
       if (data.direction[DIR_DOWN] || !data.direction[DIR_UP] || abs((float)data.p[0]) < abs((float)data.p[1])) {
-        if (enemy instanceof Koopa && koopaInvincibility > 0) continue; //<>//
+        if (enemy instanceof Koopa && koopaInvincibility > 0) continue;
         if (invincibility < 0) continue;
         // Kill player
         println("player hit");
@@ -160,12 +167,13 @@ class Player extends Body {
           setMarioState(state.onHit);
           invincibility = -fps*3;
         }
-      } else { //<>// //<>// //<>//
+      } else {
         // Kill enemy
         if (enemy instanceof Koopa) {
           Koopa koopa = (Koopa) enemy;
           if (!koopa.inShell) {
             koopa.setInShell();
+            game.score += GameConstants.SCORE_KILL_ENEMY;
           } else if (koopa.shellDirection != 0) {
             koopa.shellDirection = 0;
           }
@@ -173,6 +181,7 @@ class Player extends Body {
            GoombaDeathAnimation gda = new GoombaDeathAnimation(enemy.pos);
            game.animations.add(gda);
            enemy.alive = false;
+           game.score += GameConstants.SCORE_KILL_ENEMY;
          }
 
         this.pos.y = floor(this.pos.y);
