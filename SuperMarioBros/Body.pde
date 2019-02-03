@@ -36,6 +36,31 @@ class Body{
   void step(float dt) {
   }
   
+  CollisionData getCollisionData(Body body) {
+    double deltaX = this.pos.x - body.pos.x;
+    double deltaY = this.pos.y - body.pos.y;
+    double px1 = deltaX - body.size.x;
+    double py1 = deltaY - body.size.y;
+    double px2 = deltaX + this.size.x;
+    double py2 = deltaY + this.size.y;
+    
+    if (px1 >= 0 || py1 >= 0 || px2 <=0 || py2 <=0){
+     return null; 
+    }
+    
+    double px = (abs((float)px1) > abs((float)px2))? -px2: -px1;
+    double py = (abs((float)py1) > abs((float)py2))? -py2: -py1;
+    double p[] = {px, py};
+    
+    boolean up = body.pos.y < this.pos.y;
+    boolean down = body.pos.y + body.size.y > this.pos.y + this.size.y;
+    boolean left = body.pos.x < this.pos.x;
+    boolean right = body.pos.x + body.size.x > this.pos.x + this.size.x;
+    boolean directions[] = {up, down, left, right};
+    
+    return new CollisionData(this, body, p, directions);
+  }
+  
   // **** Utilitary functions ****
   float left(){ return pos.x; }
   float right(){ return pos.x + size.x; }

@@ -72,19 +72,24 @@ class Player extends Body {
   void handleCollision(FullCollisionReport collision) {
     isOnGround = (collision.voteY < 0);
   }
-    
-  void interactWith(Tile tile){ //<>// //<>//
-  }   
   
-  void interactWith(Enemy enemy){  
-  }
   
-  void interactWith(Item item){
+  void handleEnemyCollisions() {
+    for (Enemy enemy : game.enemies) {
+       CollisionData data = enemy.getCollisionData(this);
+       if (data == null) continue;
+       
+       if (data.direction[DIR_DOWN] || !data.direction[DIR_UP] || abs((float)data.p[0]) < abs((float)data.p[1])) {
+         // Kill player
+         println("player dead");
+         game.play = false;
+       } else {
+         // Kill enemy
+         enemy.alive = false;
+       }
+    }
   }
-  
-  void interactWith(Body body){ //<>// //<>//
-  }
- //<>// //<>//
+   //<>// //<>// //<>//
   boolean valid(){ return alive; }
 
   void draw() {
