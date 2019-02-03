@@ -35,7 +35,7 @@ class Level {
 
   void drawBackgroundImages() {
     fill(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-    rect(0 , -6*cellSize, width * 10, height * 10);
+    rect(0 , -6*cellSize, width * 100, height * 100);
     
     for(int i = 0; i < width() ; i++) {
       for(int j = 0; j < height(); j++) {
@@ -189,8 +189,25 @@ class Level {
         String value = tokenParts[1];
         properties.put(name, value);
       }
+      
+      int enemyX = Integer.parseInt(properties.get("x"));
+      int enemyY = Integer.parseInt(properties.get("y"));      
+      PImage image = loadImage(properties.get("imageSet/walking1.png"));
+      
+      if(properties.get("type").equals("goomba")) {
+        Goomba goomba = new Goomba(enemyX, enemyY);
+        EnemyTrigger  goombaTrigger = new EnemyTrigger();
+        goombaTrigger.enemy = goomba;
+        triggers.add(goombaTrigger);
+      } else{
+        Koopa koopa = new Koopa(enemyX, enemyY);
+        EnemyTrigger  koopaTrigger = new EnemyTrigger();
+        koopaTrigger.enemy = koopa;
+        triggers.add(koopaTrigger);
+      }
+      
 
-      // TODO(step6): create the right trigger depending on the read properties and add it to the triggers array (only do Goomba and Koopa for now)
+      
     }
     return triggers;
   }
