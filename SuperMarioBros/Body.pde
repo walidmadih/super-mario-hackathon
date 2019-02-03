@@ -157,9 +157,8 @@ class Body{
     
     handleCollision(new FullCollisionReport(collisionCount, voteX, voteY, data));
   }
-   //<>// //<>//
+   //<>//
   void draw(){
-    //TODO(step1): draw body as a rectangle.
     if (this.img == null) {
       fill(255,0,0);
       strokeWeight(0);

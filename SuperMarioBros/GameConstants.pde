@@ -6,6 +6,7 @@ interface GameConstants {
   float PLAYER_MAX_SPEED_X = 7;
   float GRAVITY_MAX_SPEED = 25;
   float PLAYER_JUMP = -25;
-  
-  float GOOMBA_SPEED = 1;
+  float SMASH_JUMP = -20;
+
+  float GOOMBA_SPEED = 2;
 }

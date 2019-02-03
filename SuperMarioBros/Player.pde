@@ -86,6 +86,7 @@ class Player extends Body {
        } else {
          // Kill enemy
          enemy.alive = false;
+         this.vel.y = GameConstants.SMASH_JUMP;
        }
     }
   }

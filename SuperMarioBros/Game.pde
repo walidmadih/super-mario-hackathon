@@ -41,9 +41,9 @@ class Game {
     player.pos.set(0.5 * cellSize, 10 * cellSize);
     //TODO(step1): position and size player
 
-    Enemy enemy = new Goomba(43*cellSize, 11*cellSize);
-    enemies.add(enemy);
-
+    enemies.add(new Goomba(43*cellSize, 11*cellSize));
+    enemies.add(new Koopa(7*cellSize, 4*cellSize));
+    
     play = true;
     time = 0;
   }

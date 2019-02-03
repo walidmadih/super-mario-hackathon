@@ -50,25 +50,30 @@ class Goomba extends Enemy {
     this.size.set(cellSize, cellSize);
     this.img = imgSet.get("walking").getPImage();
     this.img.resize((int)size.x, (int)size.y);
-  }
-   //<>// //<>//
+  } //<>//
 }
 
 
 // ************ KOOPA *************
 
 class Koopa extends Enemy {
-  ImageSet imgSet = null;
+  ImageSet imgSet = new ImageSet("data/img/enemies/koopa/green");
   
   // **** constructors ****
   Koopa(float x, float y) {
     super(x, y);
+    this.size.set(cellSize, 2*cellSize);
+    this.img = imgSet.get("walking").getPImage();
+    this.img.resize((int)size.x, (int)size.y);
   }
   
-  // **** stepping ****
-  void step(float dt){
-    if(!alive) return;
-    super.step(dt);
+  void draw() {
+    if (direction) {
+      image(this.img, this.pos.x, this.pos.y);
+    } else {
+      scale(-1, 1);
+      image(this.img, -this.pos.x, this.pos.y);
+      scale(-1, 1);
+    }
   }
-  
 }
