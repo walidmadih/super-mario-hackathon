@@ -108,15 +108,11 @@ class Game {
     drawer.draw("WORLD", 325 + (float)initialTilePos, 160);
     drawer.draw("1-1", 338 + (float)initialTilePos, 140);
     drawer.draw("TIME", 550 + (float)initialTilePos, 160);
-    drawer.draw(nf(time, 3), 563 + (float)initialTilePos, 140);
-<<<<<<< HEAD
-      if(millis() - lastTime >= 1000){
-        time--;
-        println(time);
+    drawer.draw(nf(timeText, 3), 563 + (float)initialTilePos, 140);
+      if(millis() - lastTime >= 1000/2.5){
+        timeText--;
         lastTime = millis();
       }
-=======
->>>>>>> a7f509add33af1512a676d9b92ef1edfe047e56b
     //TODO(step1): draw the player.
   } 
   
