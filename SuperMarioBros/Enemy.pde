@@ -74,18 +74,23 @@ abstract class Enemy extends Body {
 
 class Goomba extends Enemy {
   ImageSet imgSet = new ImageSet("data/img/enemies/goomba/brown");
+  Image img = imgSet.get("walking");
   
   // **** constructors ****
   Goomba(float x, float y) { 
     super(x, y);
     this.size.set(cellSize, cellSize);
-    this.img = imgSet.get("walking").getPImage();
-    this.img.resize((int)size.x, (int)size.y);
   }
   
   void step(float s) {
    super.step(GameConstants.GOOMBA_SPEED * s, direction);  //<>//
   } //<>//
+  
+  void draw() {
+    PImage i = img.getPImage();
+    i.resize((int)size.x, (int)size.y);
+    image(i, pos.x, pos.y);
+  }
 }
 
 
@@ -95,7 +100,7 @@ class Koopa extends Enemy {
   boolean inShell;
   int shellDirection;
   ImageSet imgSet = new ImageSet("data/img/enemies/koopa/green");
-  
+  Image walking = imgSet.get("walking");
   
   // **** constructors ****
   Koopa(float x, float y) {
@@ -119,11 +124,14 @@ class Koopa extends Enemy {
   }
   
   void draw() {
+    PImage i =  inShell ? this.img : walking.getPImage();
+    i.resize((int)size.x, (int)size.y);
+    
     if (direction) {
-      image(this.img, this.pos.x, this.pos.y);
+      image(i, this.pos.x, this.pos.y);
     } else {
       scale(-1, 1);
-      image(this.img, -this.size.x-this.pos.x, this.pos.y);
+      image(i, -this.size.x-this.pos.x, this.pos.y);
       scale(-1, 1);
     }
   }
