@@ -5,6 +5,8 @@ class Game {
   float time;
   float dt = 1;
   boolean play;
+  int timeText = 400;
+  int lastTime = 0;
   Window window;
   Player player;
   
@@ -78,7 +80,8 @@ class Game {
 
     time += dt;
   }
-
+  
+  
   void draw() {
 
     //TODO(step1): replace this with a checkerboard pattern and a "plus" sign at the origin
@@ -88,7 +91,8 @@ class Game {
     float wr = width / 224.0;   
     int score = 000000;
     int lives = 03;
-    int time = 400;
+    
+    
     level.drawBackgroundImages();
     player.draw();   
     drawer.draw("MARIO", 10 + (float)initialTilePos, 160);
@@ -98,8 +102,11 @@ class Game {
     drawer.draw("1-1", 338 + (float)initialTilePos, 140);
     drawer.draw("TIME", 550 + (float)initialTilePos, 160);
     drawer.draw(nf(time, 3), 563 + (float)initialTilePos, 140);
-    println(player.pos.x + " " + player.pos.y);
-    println();
+      if(millis() - lastTime >= 1000){
+        time--;
+        println(time);
+        lastTime = millis();
+      }
     //TODO(step1): draw the player.
   } 
   
