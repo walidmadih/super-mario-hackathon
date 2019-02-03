@@ -6,6 +6,7 @@
 abstract class Enemy extends Body {
   boolean alive = true;
   boolean direction = false;
+  boolean spawned = false;
   
   // **** constructors ****
   Enemy(float x, float y) {
@@ -14,17 +15,17 @@ abstract class Enemy extends Body {
   }
     
   // **** stepping ****
-  void step(float absStep, boolean dir){
+  void step(float absStep, boolean dir){ //<>//
     if(!alive) return; //<>//
-    
+     //<>//
     vel.y += GameConstants.GRAVITY;
     vel.y = min(GameConstants.GRAVITY_MAX_SPEED, vel.y);
     
     double step = absStep * (dir ? 1 : -1);
     this.pos.x += step;
-    this.pos.y += vel.y;
+    this.pos.y += vel.y; //<>//
      //<>//
-  }
+  } //<>//
    //<>//
   boolean valid(){ return alive; }
   
@@ -36,8 +37,8 @@ abstract class Enemy extends Body {
     }
   }
 }
-
-
+ //<>//
+ //<>//
 
 // ************ GOOMBA ************
 
@@ -53,7 +54,7 @@ class Goomba extends Enemy {
   }
   
   void step(float s) {
-   super.step(GameConstants.GOOMBA_SPEED * s, direction); 
+   super.step(GameConstants.GOOMBA_SPEED * s, direction);  //<>//
   } //<>//
 }
 
@@ -64,6 +65,7 @@ class Koopa extends Enemy {
   boolean inShell;
   int shellDirection;
   ImageSet imgSet = new ImageSet("data/img/enemies/koopa/green");
+  
   
   // **** constructors ****
   Koopa(float x, float y) {

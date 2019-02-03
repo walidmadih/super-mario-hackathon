@@ -1,6 +1,6 @@
-final int cellSize = 2*16; // in pixels, use multiples of 16
+final static int cellSize = 2*16; // in pixels, use multiples of 16
 int fps = 50;
-double finalTilePos = 16 * cellSize;
+static double finalTilePos = 16 * cellSize;
 double initialTilePos = 0;
 double lastPos;
 double pos;
