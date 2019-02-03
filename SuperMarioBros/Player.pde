@@ -2,6 +2,8 @@ import java.util.Map;
 class Player extends Body {
   
   ImageSet containerTileSet = new ImageSet("data/img/tiles/imageSet1");
+  ImageSet brokenBlockSet = new ImageSet("data/img/tiles/imageSet4");
+  ImageSet goombaSet = new ImageSet("data/img/enemies/goomba/brown");
   
   // ImageSets (used in Step4)
   ImageSet smallStarMarioSet[] = {
@@ -39,10 +41,10 @@ class Player extends Body {
     if (invincibility > 0) --invincibility;
     
     handleControls();
-    vel.add(acc.x * dt, acc.y * dt);
-    if (acc.x == 0) {
-       vel.x *= GameConstants.DAMPING; //<>//
-    } //<>//
+    vel.add(acc.x * dt, acc.y * dt); //<>//
+    if (acc.x == 0) { //<>//
+       vel.x *= GameConstants.DAMPING;
+    }
         
     restrictVelocity();     
     pos.add(vel); //<>//
@@ -101,23 +103,34 @@ class Player extends Body {
        Tile t = me.getKey();
        int posX = (int) t.pos.x / cellSize;
        int posY = (int) t.pos.y / cellSize;
+       for(Enemy e : game.enemies){
+         if(e.pos.x > t.pos.x && e.pos.x < t.pos.x + 16){
+           game.animations.add(new ParticleAnimation(t.pos.copy().add(0,cellSize / 2.0), new Vec2(-2, -8), goombaSet.get("dead"), 1, 1));
+         }
+       }
        if(t instanceof SolidTile){
          
        }else if(t instanceof BreakableTile){
          game.level.tiles[posX][posY] = null;
-         game.level.backgroundImages[posX][posY] = null;
+         game.level.backgroundImages[posX][posY] = null; //<>//
          
-         //have a preset block explosion coordinate and instance it at posX and posY
+         Image left = brokenBlockSet.get("pieceLeft");
+         Image right = brokenBlockSet.get("pieceRight");
+         int brokenSize = cellSize/4;
+         game.animations.add(new ParticleAnimation(t.pos.copy().add(0,cellSize / 2.0), new Vec2(-2, -8), left, brokenSize, brokenSize));
+         game.animations.add(new ParticleAnimation(t.pos.copy().add(cellSize,cellSize / 2.0), new Vec2(2, -8), right,  brokenSize, brokenSize));
+         game.animations.add(new ParticleAnimation(t.pos.copy().add(0,cellSize / 2.0 - cellSize), new Vec2(-2, -8), left,  brokenSize, brokenSize));
+         game.animations.add(new ParticleAnimation(t.pos.copy().add(cellSize,cellSize / 2.0 - cellSize), new Vec2(2, -8), right,  brokenSize, brokenSize));
          
        }else if(t instanceof ContainerTile){
          game.level.backgroundImages[posX][posY] = CONTAINER_IMAGE_SET.get("end").getPImage();
          //pop up an item
-       } //<>// //<>//
+       } //<>//
      }
     
    }
   }
-  
+   //<>//
   void handleEnemyCollisions() {
     for (Enemy enemy : game.enemies) {
        CollisionData data = enemy.getCollisionData(this);
@@ -130,7 +143,7 @@ class Player extends Body {
        
        if (enemy instanceof Koopa && ((Koopa)enemy).inShell && ((Koopa)enemy).shellDirection == 0) {
          koopaInvincibility = GameConstants.KOOPA_KICK_INVINCIBILITY;
-         ((Koopa)enemy).shellDirection = (data.direction[DIR_LEFT] ? 1 : -1); //<>//
+         ((Koopa)enemy).shellDirection = (data.direction[DIR_LEFT] ? 1 : -1);
          continue;
        }
        

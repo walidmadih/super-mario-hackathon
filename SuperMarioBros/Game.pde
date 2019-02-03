@@ -135,6 +135,10 @@ class Game {
     for(Item item: items) {
         item.draw();
     }
+    
+    for(Animation animation : animations){
+      animation.draw();
+    }
 
     player.draw();   
     drawer.draw("MARIO", 10 + (float)initialTilePos, 160);
