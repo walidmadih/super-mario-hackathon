@@ -5,8 +5,6 @@ final int DIR_RIGHT = 3;
 
 
 class CollisionData {
-
-  
   Body with, self;
   double p[];
   boolean direction[];
@@ -42,5 +40,18 @@ class CollisionData {
   
   public String toString() {
      return String.format("Collision{%.2f %.2f ; %b %b %b %b}", p[0], p[1], direction[0], direction[1], direction[2] ,direction[3]); 
+  }
+}
+
+class FullCollisionReport {
+  int collisionCount;
+  int voteX, voteY;
+  CollisionData data;
+  
+  FullCollisionReport(int count, int vx, int vy, CollisionData data) {
+    this.collisionCount = count;
+    this.voteX = vx;
+    this.voteY = vy;
+    this.data = data;
   }
 }

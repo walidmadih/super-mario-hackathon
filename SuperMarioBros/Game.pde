@@ -15,11 +15,11 @@ class Game {
   ArrayList<Trigger> activeTriggers = new ArrayList<Trigger>();
 
   Game() {
-    window = new Window();
-    init();
+    
   }
 
-  void init() {    
+  void init() {
+    window = new Window();
 
     // clear all
     items.clear();
@@ -39,6 +39,9 @@ class Game {
     player.pos.set(0.5 * cellSize, 10 * cellSize);
     //TODO(step1): position and size player
 
+    Enemy enemy = new Goomba(43*cellSize, 11*cellSize);
+    enemies.add(enemy);
+
     play = true;
     time = 0;
   }
@@ -55,7 +58,8 @@ class Game {
     for (Animation anim : animations) anim.step(dt);
 
     // check collisions
-    player.handleCollisions();
+    player.handleBlockCollisions();
+    for (Enemy enemy : enemies) enemy.handleBlockCollisions();
 
     // check triggers
     for (Iterator<Trigger> it = activeTriggers.iterator(); it.hasNext(); ) {
@@ -83,12 +87,15 @@ class Game {
 
     //TODO(step1): replace this with a checkerboard pattern and a "plus" sign at the origin
    
-
     float hr = height / 14.0;
     float wr = width / 224.0;    
     
     
     level.drawBackgroundImages();
+    
+    for (Enemy enemy : enemies) {
+      enemy.draw();
+    }
     player.draw();
     //TODO(step1): draw the player.
   }

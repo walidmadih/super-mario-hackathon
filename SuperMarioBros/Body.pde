@@ -9,7 +9,7 @@ class Body{
   Vec2 vel = new Vec2();
   Vec2 acc = new Vec2();
   Vec2 damping = new Vec2(1,1);
-  Image img = null;
+  PImage img = null;
   boolean visible = true;
   
   //color of the body
@@ -44,61 +44,104 @@ class Body{
   float centerx(){ return pos.x + size.x/2; }
   float centery(){ return pos.y + size.y/2; }
   
-  
-  // says whether body intersects another or not.
-  boolean intersects(Body body){ 
-    return false;
-  }
-  
+  void handleBlockCollisions() {
+    int collisionCount = 0;
+    int voteX = 0, voteY = 0;
+    CollisionData data = null;
     
-  // computes the shortest translation to apply to body so it doesn't intersect with this.
-  Vec2 computePushOut(Body body) {
-    return new Vec2(0,0);  
-  }
-  
-  
-  // interraction loop functions. //<>//
-  void handlePlayer(){
-    if(this.intersects(game.player)) //<>//
-      interactWith(game.player);
-  }
-  void handleTiles(){
-    // select tiles close to the body, and interract with them.
-    ArrayList<Tile> tiles = new ArrayList<Tile>();
-    for(Tile tile : tiles)
-      if(tile != null && this.intersects(tile))
-        this.interactWith(tile);
-  }
-  void handleItems(){
-    // interact with dynamic objects
-    for(Item item : game.items)
-      if(this.intersects(item))
-        this.interactWith(item);
+    int minX = floor(pos.x / cellSize);
+    int minY = floor(pos.y / cellSize);
+    int maxX = floor((pos.x + size.x) / cellSize);
+    int maxY = floor((pos.y + size.y) / cellSize);
+       
+    for (int x = minX; x <= maxX; ++x) {
+      for (int y = minY; y <= maxY; ++y) {
+        Tile tile = game.level.getTile(x, y);
+        if (tile == null)
+          continue;
+          
+        CollisionData d = tile.getCollisionData(this);
+        if (d == null) continue;
+                
+        data = d;
+        ++collisionCount;
+        voteX += data.voteX();
+        voteY += data.voteY();
+      }  
+    }
+    
+    if (collisionCount == 0) return;
+    if (collisionCount == 1) {
+      if (abs((float)data.p[0]) >= abs((float)data.p[1])){
+        this.pos.y = cellSize * ((data.p[1] > 0) ? floor(this.pos.y/cellSize) : ceil(this.pos.y/cellSize));
+      } else {
+        this.pos.x = cellSize * ((data.p[0] > 0) ? floor(this.pos.x/cellSize) : ceil(this.pos.x/cellSize));
+      }
+      handleCollision(new FullCollisionReport(collisionCount, voteX, voteY, data));
+      return;
+    }
+    
+    final int finalVoteY = voteY;
+    final int finalVoteX = voteX;
+    Runnable run1 = new Runnable() {
+
+      public void run() {
+      if (finalVoteY != 0) {
+        Body.this.pos.y = cellSize * ((finalVoteY < 0) ? floor(Body.this.pos.y/cellSize) : ceil(Body.this.pos.y/cellSize));
+      }
+    }};
+    
+    Runnable run2 = new Runnable() {
+       public void run() {
+         if (finalVoteX != 0) {
+           Body.this.pos.x = cellSize * ((finalVoteX < 0) ? floor( Body.this.pos.x/cellSize) : ceil( Body.this.pos.x/cellSize));
+        }
+       }
+    };
+    
+    if (abs(finalVoteX) > abs(finalVoteY)) {
+      Runnable temp = run2;
+      run2 = run1;
+      run1 = temp;
+    }
+    
+    run1.run();
+    
+    handleCollision(new FullCollisionReport(collisionCount, voteX, voteY, data));
+    
+    boolean hasCollision = false;
+    outer: for (int x = minX; x <= maxX; ++x) {
+      for (int y = minY; y <= maxY; ++y) {
+        Tile tile = game.level.getTile(x,y);
+        if (tile == null)
+          continue;
         
-    // select static items close to the body, and interract with them.
-    Item items[] = {};
-    for (Item item : items)
-      if (item != null && this.intersects(item))
-        this.interactWith(item);
+        CollisionData d = tile.getCollisionData(this);
+        if (d != null) {
+          hasCollision = true;
+          break outer;
+        }
+      }  
+    }
+    
+    if (hasCollision) run2.run();
+    
+    handleCollision(new FullCollisionReport(collisionCount, voteX, voteY, data));
   }
-  void handleEnemies(){
-    for(Enemy enemy : game.enemies)
-      if(this.intersects(enemy))
-        this.interactWith(enemy);
-  }
-  void handleObstacles(){
-    for(Body obstacle : game.obstacles)
-      if(this.intersects(obstacle))
-        this.interactWith(obstacle);
-  }
-  
+   //<>// //<>//
   void draw(){
     //TODO(step1): draw body as a rectangle.
-    fill(255,0,0);
-    strokeWeight(0);
-    rect(this.pos.x , this.pos.y, this.size.x, this.size.y);
+    if (this.img == null) {
+      fill(255,0,0);
+      strokeWeight(0);
+      rect(this.pos.x , this.pos.y, this.size.x, this.size.y);
+    } else {
+      image(this.img, this.pos.x, this.pos.y); 
+    }
+    
   };
   
+  void handleCollision(FullCollisionReport collision) {}
   
   // **** Functions to overload by children if needed ****
   boolean valid() { return true; }  
