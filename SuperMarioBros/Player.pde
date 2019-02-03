@@ -41,7 +41,7 @@ class Player extends Body {
     handleTiles();
     handleEnemies();
     handleItems();
-    handleObstacles(); //<>//
+    handleObstacles(); //<>// //<>//
   }
   
   void handleControls() {
@@ -90,9 +90,7 @@ class Player extends Body {
           
         CollisionData d = tile.getCollisionData(this);
         if (d == null) continue;
-        
-        println(d);
-        
+                
         data = d;
         ++collisionCount;
         voteX += data.voteX();
@@ -157,7 +155,7 @@ class Player extends Body {
     
   }
   
-  void interactWith(Tile tile){ //<>//
+  void interactWith(Tile tile){ //<>// //<>//
   }   
   
   void interactWith(Enemy enemy){  
@@ -166,9 +164,9 @@ class Player extends Body {
   void interactWith(Item item){
   }
   
-  void interactWith(Body body){ //<>//
+  void interactWith(Body body){ //<>// //<>//
   }
- //<>//
+ //<>// //<>//
   boolean valid(){ return alive; }
 
   void draw() {
