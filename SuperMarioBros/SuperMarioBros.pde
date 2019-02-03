@@ -23,6 +23,11 @@ void setup() {
   frameRate(fps);
   CONTAINER_IMAGE_SET = new ImageSet("data/img/tiles/imageSet1");
   CONTAINER_IMAGE_SET.get("begin").speed = 0.3;
+  
+  MarioState.SMALL.init(null, this);
+  MarioState.BIG.init(MarioState.SMALL, this);
+  MarioState.FLOWER.init(MarioState.BIG, this);
+  
   game.init();
 }
 

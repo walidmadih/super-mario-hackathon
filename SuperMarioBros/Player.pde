@@ -4,21 +4,18 @@ class Player extends Body {
   ImageSet containerTileSet = new ImageSet("data/img/tiles/imageSet1");
   
   // ImageSets (used in Step4)
-  ImageSet smallMarioSet = new ImageSet("data/img/players/mariosmall");
   ImageSet smallStarMarioSet[] = {
    new ImageSet("data/img/players/mariosmalldark"),
    new ImageSet("data/img/players/mariosmallflower"),
    new ImageSet("data/img/players/mariosmallgreen"),
    new ImageSet("data/img/players/mariosmallpale")
   };
-  ImageSet bigMarioSet = new ImageSet("data/img/players/mariobig");
   ImageSet bigStarMarioSet[] = {
    new ImageSet("data/img/players/mariobigdark"),
    new ImageSet("data/img/players/mariobigflower"),
    new ImageSet("data/img/players/mariobiggreen"),
    new ImageSet("data/img/players/mariobigpale")
   };
-  ImageSet flowerMarioSet = new ImageSet("data/img/players/mariobigflower");
   
   
   boolean alive = true;
@@ -27,7 +24,9 @@ class Player extends Body {
   boolean isUnder;
   
   int koopaInvincibility = 0;
-  ImageSet imgSet = smallMarioSet;   
+  int invincibility = 0;
+  MarioState state = MarioState.SMALL;
+  ImageSet imgSet = MarioState.SMALL.imageSet;   
         
   Player() {
     this.size = new Vec2(cellSize, cellSize);
@@ -36,14 +35,15 @@ class Player extends Body {
   }
      
   void step(float dt){
-    --koopaInvincibility;
+    if (koopaInvincibility > 0) --koopaInvincibility;
+    if (invincibility > 0) --invincibility;
+    
     handleControls();
     vel.add(acc.x * dt, acc.y * dt);
     if (acc.x == 0) {
-       vel.x *= GameConstants.DAMPING;
+       vel.x *= GameConstants.DAMPING; //<>//
     } //<>//
-     //<>//
-    
+        
     restrictVelocity();     
     pos.add(vel); //<>//
     isOnGround = false; //<>//
@@ -92,7 +92,7 @@ class Player extends Body {
     vel.y = min(GameConstants.GRAVITY_MAX_SPEED, vel.y);
   }
   
-  void handleCollision(FullCollisionReport collision) {
+  void handleCollision(FullCollisionReport collision) { //<>//
     isOnGround = (collision.voteY < 0);
    if(collision.voteY > 0){
     //if the collision is from under
@@ -112,7 +112,7 @@ class Player extends Body {
        }else if(t instanceof ContainerTile){
          game.level.backgroundImages[posX][posY] = CONTAINER_IMAGE_SET.get("end").getPImage();
          //pop up an item
-       } //<>//
+       } //<>// //<>//
      }
     
    }
@@ -123,9 +123,14 @@ class Player extends Body {
        CollisionData data = enemy.getCollisionData(this);
        if (data == null) continue;
        
+       if (invincibility > 0) {
+          enemy.alive = false;
+          continue;
+       }
+       
        if (enemy instanceof Koopa && ((Koopa)enemy).inShell && ((Koopa)enemy).shellDirection == 0) {
          koopaInvincibility = GameConstants.KOOPA_KICK_INVINCIBILITY;
-         ((Koopa)enemy).shellDirection = (data.direction[DIR_LEFT] ? 1 : -1);
+         ((Koopa)enemy).shellDirection = (data.direction[DIR_LEFT] ? 1 : -1); //<>//
          continue;
        }
        
@@ -153,8 +158,32 @@ class Player extends Body {
          this.pos.y = floor(this.pos.y);
          this.vel.y = GameConstants.SMASH_JUMP;
        }
+       
+       
     }
   }
+  
+  void setMarioState(MarioState newState) {
+    if (newState == null || state == newState) return;
+    
+    this.imgSet = newState.imageSet;
+    this.img = imgSet.get("idle").getPImage();
+    
+    // Check if going from small to big
+    if (state == MarioState.SMALL) {
+      this.pos.y -= 1;
+      this.size.y = 2*cellSize;
+    }
+    
+    // Check if going from big to small
+    else if (newState == MarioState.SMALL) {
+      this.pos.y += 1;
+      this.size.y = cellSize;
+    }
+    
+    this.state = newState;
+  }
+  
    //<>// //<>// //<>//
   boolean valid(){ return alive; }
   void draw() {

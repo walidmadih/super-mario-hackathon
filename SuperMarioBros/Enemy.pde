@@ -6,7 +6,6 @@
 abstract class Enemy extends Body {
   boolean alive = true;
   boolean direction = false;
-  boolean spawned = false;
   
   // **** constructors ****
   Enemy(float x, float y) {
