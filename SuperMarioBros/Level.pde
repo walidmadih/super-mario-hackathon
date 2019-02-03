@@ -35,13 +35,13 @@ class Level {
 
   void drawBackgroundImages() {
     fill(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-    rect(0 , -6*cellSize, width * 100, height * 100);
-    
-    for(int i = 0; i < width() ; i++) {
-      for(int j = 0; j < height(); j++) {
+    rect(0, -6*cellSize, width * 100, height * 100);
+
+    for (int i = 0; i < width(); i++) {
+      for (int j = 0; j < height(); j++) {
         PImage bi = backgroundImages[i][j];
         if (bi != null)
-           image(bi, cellSize * i, cellSize * j, cellSize, cellSize);
+          image(bi, cellSize * i, cellSize * j, cellSize, cellSize);
       }
     }
   }
@@ -118,8 +118,8 @@ class Level {
     int w = lines[0].length(), h = lines.length;
     char[][] map = new char[w][h];
 
-    for(int i = 0; i < h; i++) {
-      for(int j = 0; j < w; j++) {
+    for (int i = 0; i < h; i++) {
+      for (int j = 0; j < w; j++) {
         map[j][i] = lines[i].charAt(j);
       }
     }
@@ -189,24 +189,28 @@ class Level {
         String value = tokenParts[1];
         properties.put(name, value);
       }
-      
+
       int enemyX = Integer.parseInt(properties.get("x"));
-      int enemyY = Integer.parseInt(properties.get("y"));      
+      int enemyY = Integer.parseInt(properties.get("y"));
+      println(properties.get("imageSet"));
       
-      if(properties.get("type").equals("goomba")) {
+
+      if (properties.get("type").equals("goomba")) {
+        ImageSet animation = new ImageSet(properties.get("imageSet"));
         Goomba goomba = new Goomba(enemyX, enemyY);
+        goomba.imgSet = animation;
         EnemyTrigger  goombaTrigger = new EnemyTrigger();
         goombaTrigger.enemy = goomba;
         triggers.add(goombaTrigger);
-      } else{
+      } else if (properties.get("type").equals("koopa")) {
+        ImageSet animation = new ImageSet(properties.get("imageSet"));
         Koopa koopa = new Koopa(enemyX, enemyY);
+        koopa.imgSet = animation;
         EnemyTrigger  koopaTrigger = new EnemyTrigger();
         koopaTrigger.enemy = koopa;
         triggers.add(koopaTrigger);
+      } else {
       }
-      
-
-      
     }
     return triggers;
   }
