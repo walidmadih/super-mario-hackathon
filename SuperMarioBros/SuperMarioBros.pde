@@ -18,6 +18,11 @@ Game game = new Game();
 void setup() {
   noSmooth(); // to get the blocky aspect
   frameRate(fps);
+  
+  MarioState.SMALL.init(null, this);
+  MarioState.BIG.init(MarioState.SMALL, this);
+  MarioState.FLOWER.init(MarioState.BIG, this);
+  
   game.init();
 }
 
