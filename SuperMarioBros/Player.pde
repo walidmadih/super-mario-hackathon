@@ -292,7 +292,13 @@ class Player extends Body {
   void draw() {
     if (invincibility < 0) tint(255, 180);
     if (invincibility > 0) updateStarImage(); 
-    super.draw();
+    if (vel.x < 0){
+      scale(-1, 1);
+      image(this.img, -this.size.x-this.pos.x, this.pos.y);
+      scale(-1, 1);
+    } else {
+      super.draw();
+    }
     if (invincibility < 0) tint(255, 255);
   }
 
