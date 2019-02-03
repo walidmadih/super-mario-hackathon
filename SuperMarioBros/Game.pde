@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.ListIterator;
 
 class Game {
   Level level = new Level();
@@ -59,7 +60,12 @@ class Game {
 
     // check collisions
     player.handleBlockCollisions();
-    for (Enemy enemy : enemies) enemy.handleBlockCollisions();
+    int index = 0;
+    for (Enemy enemy : enemies) {
+      enemy.handleBlockCollisions();
+      enemy.handleEnemyCollisions(index);
+      ++index;
+    }
 
 
     for (int i = 0; i < level.triggers.size(); i++) { 
@@ -81,7 +87,6 @@ class Game {
     }
 
     player.handleEnemyCollisions();
-
 
     // check triggers
     for (Iterator<Trigger> it = activeTriggers.iterator(); it.hasNext(); ) {

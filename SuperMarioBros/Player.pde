@@ -23,6 +23,7 @@ class Player extends Body {
   boolean isOnGround;
   boolean isUnder;
   
+  int koopaInvincibility = 0;
   ImageSet imgSet = smallMarioSet;   
         
   Player() {
@@ -32,6 +33,7 @@ class Player extends Body {
   }
      
   void step(float dt){
+    --koopaInvincibility;
     handleControls();
     vel.add(acc.x * dt, acc.y * dt);
     if (acc.x == 0) {
@@ -40,7 +42,7 @@ class Player extends Body {
     
     
     restrictVelocity();     
-    pos.add(vel);
+    pos.add(vel); //<>//
     isOnGround = false; //<>//
   }
   
@@ -98,15 +100,34 @@ class Player extends Body {
        CollisionData data = enemy.getCollisionData(this);
        if (data == null) continue;
        
+       if (enemy instanceof Koopa && ((Koopa)enemy).inShell && ((Koopa)enemy).shellDirection == 0) {
+         koopaInvincibility = GameConstants.KOOPA_KICK_INVINCIBILITY;
+         ((Koopa)enemy).shellDirection = (data.direction[DIR_LEFT] ? 1 : -1);
+         continue;
+       }
+       
        if (data.direction[DIR_DOWN] || !data.direction[DIR_UP] || abs((float)data.p[0]) < abs((float)data.p[1])) {
+         if (enemy instanceof Koopa && koopaInvincibility > 0) continue;
+         
          // Kill player
          println("player dead");
          this.img = imgSet.get("dead").getPImage();
          img.resize(cellSize, cellSize);
          game.play = false;
-       } else {
+       } else { //<>// //<>// //<>//
          // Kill enemy
-         enemy.alive = false;
+         if (enemy instanceof Koopa) {
+           Koopa koopa = (Koopa) enemy;
+           if (!koopa.inShell) {
+             koopa.setInShell();
+           } else if (koopa.shellDirection != 0) {
+             koopa.shellDirection = 0;
+           }
+         } else {
+           enemy.alive = false;
+         }
+         
+         this.pos.y = floor(this.pos.y);
          this.vel.y = GameConstants.SMASH_JUMP;
        }
     }
