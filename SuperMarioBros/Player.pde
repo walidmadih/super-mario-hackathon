@@ -1,4 +1,4 @@
-import java.util.Map;
+import java.util.Map; //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 class Player extends Body {
   
   ImageSet containerTileSet = new ImageSet("data/img/tiles/imageSet1");
@@ -152,6 +152,8 @@ class Player extends Body {
              koopa.shellDirection = 0;
            }
          } else {
+           GoombaDeathAnimation gda = new GoombaDeathAnimation(enemy.pos);
+           game.animations.add(gda);
            enemy.alive = false;
          }
          
