@@ -36,12 +36,7 @@ class Player extends Body {
     
     
     restrictVelocity();     
-    pos.add(vel);
-    
-    handleTiles();
-    handleEnemies();
-    handleItems();
-    handleObstacles(); //<>// //<>//
+    pos.add(vel); //<>//
   }
   
   void handleControls() {
@@ -69,90 +64,7 @@ class Player extends Body {
   
   void restrictVelocity() {
     vel.x = max(-GameConstants.PLAYER_MAX_SPEED_X, min(vel.x, GameConstants.PLAYER_MAX_SPEED_X));
-    vel.y = min(GameConstants.PLAYER_MAX_SPEED_Y, vel.y);
-  }
-  
-  void handleCollisions() {
-    int collisionCount = 0;
-    int voteX = 0, voteY = 0;
-    CollisionData data = null;
-    
-    int minX = floor(pos.x / cellSize);
-    int minY = floor(pos.y / cellSize);
-    int maxX = floor((pos.x + size.x) / cellSize);
-    int maxY = floor((pos.y + size.y) / cellSize);
-       
-    for (int x = minX; x <= maxX; ++x) {
-      for (int y = minY; y <= maxY; ++y) {
-        Tile tile = game.level.getTile(x, y);
-        if (tile == null)
-          continue;
-          
-        CollisionData d = tile.getCollisionData(this);
-        if (d == null) continue;
-                
-        data = d;
-        ++collisionCount;
-        voteX += data.voteX();
-        voteY += data.voteY();
-      }  
-    }
-    
-    if (collisionCount == 0) return;
-    if (collisionCount == 1) {
-      if (abs((float)data.p[0]) >= abs((float)data.p[1])){
-        this.pos.y = cellSize * ((data.p[1] > 0) ? floor(this.pos.y/cellSize) : ceil(this.pos.y/cellSize));
-      } else {
-        this.pos.x = cellSize * ((data.p[0] > 0) ? floor(this.pos.x/cellSize) : ceil(this.pos.x/cellSize));
-      }
-      return;
-    }
-    
-    final int finalVoteY = voteY;
-    final int finalVoteX = voteX;
-    Runnable run1 = new Runnable() {
-
-      public void run() {
-      if (finalVoteY != 0) {
-        Player.this.pos.y = cellSize * ((finalVoteY < 0) ? floor(Player.this.pos.y/cellSize) : ceil(Player.this.pos.y/cellSize));
-      }
-    }};
-    
-    Runnable run2 = new Runnable() {
-       public void run() {
-         if (finalVoteX != 0) {
-           Player.this.pos.x = cellSize * ((finalVoteX < 0) ? floor( Player.this.pos.x/cellSize) : ceil( Player.this.pos.x/cellSize));
-        }
-       }
-    };
-    
-    if (abs(finalVoteX) > abs(finalVoteY)) {
-      Runnable temp = run2;
-      run2 = run1;
-      run1 = temp;
-    }
-    
-    run1.run();
-    
-    boolean hasCollision = false;
-    outer: for (int x = minX; x <= maxX; ++x) {
-      for (int y = minY; y <= maxY; ++y) {
-        Tile tile = game.level.getTile(x,y);
-        if (tile == null)
-          continue;
-        
-        CollisionData d = tile.getCollisionData(this);
-        if (d != null) {
-          hasCollision = true;
-          break outer;
-        }
-      }  
-    }
-    
-    if (!hasCollision) return;
-    
-    run2.run();
-    
+    vel.y = min(GameConstants.GRAVITY_MAX_SPEED, vel.y);
   }
   
   void interactWith(Tile tile){ //<>// //<>//

@@ -157,14 +157,54 @@ class Level {
           String imageUrl = properties.get("image");
           tileProperties.get(index).background = loadImage(imageUrl);
         } else if (properties.get("property").equals("tile")) { 
-          String imageUrl = properties.get("image");
-          tileProperties.get(index).background = loadImage(imageUrl);
+
           if (properties.get("type").equals("solid")) {
+            String imageUrl = properties.get("image");
+            tileProperties.get(index).background = loadImage(imageUrl);
             tileProperties.get(index).tile = new SolidTile();
           } else if (properties.get("type").equals("breakable")) {
-            tileProperties.get(index).tile = new BreakableTile();
+            BreakableTile breakableTile = new BreakableTile();
+            breakableTile.imgSet = new ImageSet(properties.get("imageSet"));
+            tileProperties.get(index).tile = breakableTile;
+            tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
           } else if (properties.get("type").equals("container")) {
-            tileProperties.get(index).tile = new ContainerTile();
+            if (properties.get("content").equals("coin")) {
+              Coin coinItem = new Coin(); 
+              int n = Integer.parseInt(properties.get("n"));
+              ContainerTile containerTile = new ContainerTile();
+              containerTile.item = coinItem;
+              containerTile.n = n;
+              containerTile.imgSet = new ImageSet(properties.get("imageSet"));
+              tileProperties.get(index).tile = containerTile;
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
+            } else if (properties.get("content").equals("grow")) {
+              Mushroom mushroomItem = new Mushroom();
+              int n = Integer.parseInt(properties.get("n"));
+              ContainerTile containerTile = new ContainerTile();
+              containerTile.item = mushroomItem;
+              containerTile.n = n;
+              containerTile.imgSet = new ImageSet(properties.get("imageSet"));
+              tileProperties.get(index).tile = containerTile;
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
+            } else if (properties.get("content").equals("1up")) {
+              OneUp oneUpItem = new OneUp(); 
+              int n = Integer.parseInt(properties.get("n"));
+              ContainerTile containerTile = new ContainerTile();
+              containerTile.item = oneUpItem;
+              containerTile.n = n;
+              containerTile.imgSet = new ImageSet(properties.get("imageSet"));
+              tileProperties.get(index).tile = containerTile;
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
+            } else {
+              Star starItem = new Star(); 
+              int n = Integer.parseInt(properties.get("n"));
+              ContainerTile containerTile = new ContainerTile();
+              containerTile.item = starItem;
+              containerTile.n = n;
+              containerTile.imgSet = new ImageSet(properties.get("imageSet"));
+              tileProperties.get(index).tile = containerTile;
+              tileProperties.get(index).background = loadImage(properties.get("imageSet") + "/begin.png");
+            }
           }
         } else if (properties.get("property").equals("item")) {
           //TODO(step7)
@@ -172,7 +212,7 @@ class Level {
       }
     }
     return tileProperties;
-  } 
+  }
 
   private ArrayList<Trigger> loadTriggers(String file) {
     ArrayList<Trigger> triggers = new ArrayList<Trigger>();
@@ -193,7 +233,7 @@ class Level {
       int enemyX = Integer.parseInt(properties.get("x"));
       int enemyY = Integer.parseInt(properties.get("y"));
       println(properties.get("imageSet"));
-      
+
 
       if (properties.get("type").equals("goomba")) {
         ImageSet animation = new ImageSet(properties.get("imageSet"));

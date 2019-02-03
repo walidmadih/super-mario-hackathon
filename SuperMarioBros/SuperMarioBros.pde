@@ -9,7 +9,7 @@ double deltaPos;
 // global variables
 Drawer drawer = new Drawer();
 Resources resources = new Resources();
-Game game;
+Game game = new Game();
 
   boolean upPressed, downPressed, leftPressed, rightPressed;
 
@@ -18,7 +18,7 @@ Game game;
 void setup() {
   noSmooth(); // to get the blocky aspect
   frameRate(fps);
-  game = new Game();
+  game.init();
 }
 
 // Processing runs this every frame.
