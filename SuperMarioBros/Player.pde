@@ -38,7 +38,7 @@ class Player extends Body {
     this.size = new Vec2(cellSize, cellSize);
     this.img = imgSet.get(imgName).getPImage();
     img.resize((int) size.x, (int) size.y);
-  }
+  } //<>//
 
   void step(float dt) {
     if (koopaInvincibility > 0) --koopaInvincibility;
@@ -92,7 +92,7 @@ class Player extends Body {
       acc.x = GameConstants.PLAYER_ACC * (right ? 1 : -1); 
       if (isOnGround && !up) {
         imgName = "run";
-        this.img = imgSet.get(imgName).getPImage();
+        this.img = imgSet.get(imgName).getPImage(); //<>//
         img.resize((int) size.x, (int) size.y);
       }
     } else {
@@ -151,10 +151,20 @@ class Player extends Body {
           game.level.backgroundImages[posX][posY] = CONTAINER_IMAGE_SET.get("end").getPImage();
           Item item = ti.item.copy();
           if (ti.n > 0) {
-            item.pos.x = t.pos.x;
-            item.pos.y = t.pos.y - 1*cellSize;
-            --ti.n;
-            game.items.add(item);
+            if (ti.item instanceof Coin) {
+              ImageSet imgSet = new ImageSet("data/img/items/coin");
+              Image imgTemp = imgSet.get("bounce");
+              imgTemp.speed = 0.6;
+              
+              game.animations.add(new CoinAnimation(new Vec2(ti.pos.x, ti.pos.y), new Vec2(0, -20), imgTemp , cellSize, cellSize));
+              
+              --ti.n;
+            } else {
+              item.pos.x = t.pos.x;
+              item.pos.y = t.pos.y - 1*cellSize;
+              --ti.n;
+              game.items.add(item);
+            }
           }
         }
       }
@@ -293,7 +303,13 @@ class Player extends Body {
   void draw() {
     if (invincibility < 0) tint(255, 180);
     if (invincibility > 0) updateStarImage(); 
-    super.draw();
+    if (vel.x < 0){
+      scale(-1, 1);
+      image(this.img, -this.size.x-this.pos.x, this.pos.y);
+      scale(-1, 1);
+    } else {
+      super.draw();
+    }
     if (invincibility < 0) tint(255, 255);
   }
 

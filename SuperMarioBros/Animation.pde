@@ -20,6 +20,7 @@ class ParticleAnimation implements Animation {
     vel.y += GameConstants.GRAVITY;
     pos.add(vel);
   }
+  
   void draw() {
     PImage img = image.getPImage();
     img.resize(resizeX, resizeY);
@@ -27,6 +28,35 @@ class ParticleAnimation implements Animation {
   }
   boolean completed() {
     return pos.y >= height;
+  }
+}
+
+class CoinAnimation implements Animation {
+  Vec2 pos, vel;
+  Image image;
+  int resizeX, resizeY;
+  double initialY;
+  
+  CoinAnimation(Vec2 pos, Vec2 vel, Image image, int resizeX, int resizeY) {
+    this.pos = pos;
+    this.vel = vel;
+    this.image = image;
+    this.resizeX = resizeX;
+    this.resizeY = resizeY;
+    this.initialY = pos.y;
+  }
+  void step(float dt) {
+    vel.y += GameConstants.GRAVITY;
+    pos.add(vel);
+  }
+  
+  void draw() {
+    PImage img = image.getPImage();
+    img.resize(resizeX, resizeY);
+    image(img, pos.x, pos.y);
+  }
+  boolean completed() {
+    return pos.y > initialY;
   }
 }
 
