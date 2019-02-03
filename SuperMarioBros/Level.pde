@@ -49,10 +49,6 @@ class Level {
       }
     }
   }
-  void drawTiles() {
-  }
-  void drawItems() {
-  }
 
   // ***** LOADING FUNCTIONS *****
   void load(String file) {

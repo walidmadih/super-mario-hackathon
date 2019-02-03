@@ -1,31 +1,53 @@
-interface Animation{
+interface Animation {
   void step(float dt);
   void draw();
   boolean completed();
 }
 
-class ParticleAnimation implements Animation{
-  Vec2 pos,vel;
+class ParticleAnimation implements Animation {
+  Vec2 pos, vel;
   Image image;
-  int resizeX,resizeY;
-  
-  ParticleAnimation(Vec2 pos, Vec2 vel, Image image, int resizeX, int resizeY){
+  int resizeX, resizeY;
+
+  ParticleAnimation(Vec2 pos, Vec2 vel, Image image, int resizeX, int resizeY) {
     this.pos = pos;
     this.vel = vel;
     this.image = image;
     this.resizeX = resizeX;
     this.resizeY = resizeY;
   }
-  void step(float dt){
+  void step(float dt) {
     vel.y += GameConstants.GRAVITY;
     pos.add(vel);
   }
-  void draw(){
+  void draw() {
     PImage img = image.getPImage();
     img.resize(resizeX, resizeY);
     image(img, pos.x, pos.y);
   }
-  boolean completed(){
+  boolean completed() {
     return pos.y >= height;
+  }
+}
+
+class GoombaDeathAnimation implements Animation {
+  int timer = fps/4;
+  Vec2 pos;
+  PImage squishedgoomba = loadImage("data/img/enemies/goomba/brown/squished.png");
+
+  GoombaDeathAnimation(Vec2 pos) {
+    this.pos = pos;
+    squishedgoomba.resize(cellSize, cellSize);
+  }
+
+  void draw() {
+    image(squishedgoomba, pos.x, pos.y);
+  }
+  void step(float dt) {
+    timer--;
+  }
+
+  boolean completed() {
+    return timer <= 0;
   }
 }

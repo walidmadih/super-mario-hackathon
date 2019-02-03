@@ -41,6 +41,7 @@ class Game {
     // TODO(step1): position window
 
     player = new Player();
+    player.setMarioState(MarioState.BIG);
     player.pos.set(0.5 * cellSize, 10 * cellSize);
     //TODO(step1): position and size player
 
@@ -51,6 +52,8 @@ class Game {
 
   void step() {
     if (!play) return;
+    
+    player.prevPos = player.pos.copy();
 
     // step all
     player.step(dt);    
@@ -71,6 +74,8 @@ class Game {
     for(Item item: items) {
         item.handleBlockCollisions();
     }
+    
+    player.handleItemCollisions();
 
 
     for (int i = 0; i < level.triggers.size(); i++) { 
@@ -119,9 +124,6 @@ class Game {
 
 
   void draw() {
-    
-    if (!play) return;
-
     float hr = height / 14.0;
     float wr = width / 224.0;
 
@@ -133,7 +135,11 @@ class Game {
     }
     
     for(Item item: items) {
-        item.draw();
+      item.draw();
+    }
+    
+    for(Animation animation: animations){
+      animation.draw(); 
     }
     
     for(Animation animation : animations){
@@ -148,10 +154,9 @@ class Game {
     drawer.draw("1-1", 338 + (float)initialTilePos, 140);
     drawer.draw("TIME", 550 + (float)initialTilePos, 160);
     drawer.draw(nf(timeText, 3), 563 + (float)initialTilePos, 140);
-    if (millis() - lastTime >= 1000/2.5) {
+    if (play && millis() - lastTime >= 1000/2.5) {
       timeText--;
       lastTime = millis();
     }
-    //TODO(step1): draw the player.
   }
 }

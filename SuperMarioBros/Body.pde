@@ -96,7 +96,10 @@ class Body{
     if (collisionCount == 0) return;
     if (collisionCount == 1) {
       CollisionData d = data.values().iterator().next();
-      if (abs((float)d.p[0]) >= abs((float)d.p[1])){
+      Vec2 diff = (this instanceof Player ? this.pos.copy().add(((Player)this).prevPos.copy()).mult(0.5) : this.pos.copy()).sub(d.self.pos);
+      if (this.size.y > cellSize) diff.add(0, cellSize);
+      
+      if (abs(diff.x) < abs(diff.y)){
         this.vel.y = 0;
         this.pos.y = cellSize * ((d.p[1] > 0) ? floor(this.pos.y/cellSize) : ceil(this.pos.y/cellSize));
       } else {
@@ -154,10 +157,10 @@ class Body{
     
     if (hasCollision) run2.run();
     
-    handleCollision(new FullCollisionReport(collisionCount, voteX, voteY, data));
+    handleCollision(new FullCollisionReport(collisionCount, voteX, voteY, data)); //<>//
   }
    //<>//
-  void draw(){ //<>//
+  void draw(){
     if (this.img == null) {
       fill(255,0,0);
       strokeWeight(0);
