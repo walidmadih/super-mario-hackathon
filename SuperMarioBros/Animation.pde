@@ -51,3 +51,30 @@ class GoombaDeathAnimation implements Animation {
     return timer <= 0;
   }
 }
+
+class BlockBumpAnimation implements Animation {
+  float y;
+  Vec2 pos, vel;
+  PImage img;
+  
+  BlockBumpAnimation(Vec2 pos, PImage img) {
+    this.y = pos.y;
+     this.pos = pos.copy().sub(0, 1);
+     this.img = img;
+     this.vel = new Vec2(0, -5);
+  }
+  
+  void step(float dt) {
+    vel.y += GameConstants.GRAVITY;
+    pos.y += vel.y;
+  }
+  
+  void draw() {
+    img.resize(cellSize, cellSize);
+    image(img, pos.x, pos.y);
+  }
+  
+  boolean completed() {
+    return pos.y >= y;
+  }
+}

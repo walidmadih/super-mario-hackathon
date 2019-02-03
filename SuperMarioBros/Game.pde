@@ -19,6 +19,7 @@ class Game {
   ArrayList<Animation> animations = new ArrayList<Animation>();
   ArrayList<Body> obstacles = new ArrayList<Body>();
   ArrayList<Trigger> activeTriggers = new ArrayList<Trigger>();
+  HashMap<Tile, Animation> blockBumps = new HashMap<Tile, Animation>();
 
   Game() {
   }
@@ -41,8 +42,8 @@ class Game {
     // TODO(step1): position window
 
     player = new Player();
-    player.setMarioState(MarioState.BIG);
-    player.pos.set(0.5 * cellSize, 10 * cellSize);
+    player.setMarioState(MarioState.SMALL);
+    player.pos.set(0.5 * cellSize, 11 * cellSize);
     //TODO(step1): position and size player
 
     play = true;

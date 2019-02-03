@@ -43,7 +43,7 @@ class Level {
         if (tiles[i][j] instanceof ContainerTile && bi != CONTAINER_IMAGE_SET.get("end").getPImage())
           bi = CONTAINER_IMAGE_SET.get("begin").getPImage();
         
-        if (bi != null) {
+        if (bi != null && (game.blockBumps.get(tiles[i][j]) == null || game.blockBumps.get(tiles[i][j]).completed())) {
           image(bi, cellSize * i, cellSize * j, cellSize, cellSize);
         }
       }

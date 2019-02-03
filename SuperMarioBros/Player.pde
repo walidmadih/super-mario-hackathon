@@ -59,6 +59,8 @@ class Player extends Body {
       alive = false;
       game.play = false;
     }
+    
+    pos.x = max((float)initialTilePos, pos.x);
   }
 
   void handleControls() {
@@ -125,16 +127,25 @@ class Player extends Body {
         }
         if (t instanceof SolidTile) {
         } else if (t instanceof BreakableTile) {
-          game.level.tiles[posX][posY] = null;
-          game.level.backgroundImages[posX][posY] = null;
+          if (state == MarioState.SMALL) {
+            println("bump");
+            Animation anim = new BlockBumpAnimation(t.pos, game.level.backgroundImages[posX][posY]);
+            game.blockBumps.put(t, anim);
+            game.animations.add(anim);
+          } else {
+            game.level.tiles[posX][posY] = null;
+            game.level.backgroundImages[posX][posY] = null;
+  
+            Image left = brokenBlockSet.get("pieceLeft");
+            Image right = brokenBlockSet.get("pieceRight");
+            int brokenSize = cellSize/4;
+            game.animations.add(new ParticleAnimation(t.pos.copy().add(0, cellSize / 2.0), new Vec2(-2, -8), left, brokenSize, brokenSize));
+            game.animations.add(new ParticleAnimation(t.pos.copy().add(cellSize, cellSize / 2.0), new Vec2(2, -8), right, brokenSize, brokenSize));
+            game.animations.add(new ParticleAnimation(t.pos.copy().add(0, cellSize / 2.0 - cellSize), new Vec2(-2, -8), left, brokenSize, brokenSize));
+                      game.animations.add(new ParticleAnimation(t.pos.copy().add(cellSize, cellSize / 2.0 - cellSize), new Vec2(2, -8), right, brokenSize, brokenSize));
 
-          Image left = brokenBlockSet.get("pieceLeft");
-          Image right = brokenBlockSet.get("pieceRight");
-          int brokenSize = cellSize/4;
-          game.animations.add(new ParticleAnimation(t.pos.copy().add(0, cellSize / 2.0), new Vec2(-2, -8), left, brokenSize, brokenSize));
-          game.animations.add(new ParticleAnimation(t.pos.copy().add(cellSize, cellSize / 2.0), new Vec2(2, -8), right, brokenSize, brokenSize));
-          game.animations.add(new ParticleAnimation(t.pos.copy().add(0, cellSize / 2.0 - cellSize), new Vec2(-2, -8), left, brokenSize, brokenSize));
-          game.animations.add(new ParticleAnimation(t.pos.copy().add(cellSize, cellSize / 2.0 - cellSize), new Vec2(2, -8), right, brokenSize, brokenSize));
+          }
+          
         } else if (t instanceof ContainerTile) {
           ContainerTile ti = (ContainerTile)t;
           game.level.backgroundImages[posX][posY] = CONTAINER_IMAGE_SET.get("end").getPImage();
