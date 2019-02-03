@@ -17,11 +17,11 @@ class Game {
   ArrayList<Trigger> activeTriggers = new ArrayList<Trigger>();
 
   Game() {
-    
+    window = new Window();
+    init();
   }
 
-  void init() {
-    window = new Window();
+  void init() {    
 
     // clear all
     items.clear();
@@ -41,9 +41,6 @@ class Game {
     player.pos.set(0.5 * cellSize, 10 * cellSize);
     //TODO(step1): position and size player
 
-    Enemy enemy = new Goomba(43*cellSize, 11*cellSize);
-    enemies.add(enemy);
-
     play = true;
     time = 0;
   }
@@ -60,8 +57,7 @@ class Game {
     for (Animation anim : animations) anim.step(dt);
 
     // check collisions
-    player.handleBlockCollisions();
-    for (Enemy enemy : enemies) enemy.handleBlockCollisions();
+    player.handleCollisions();
 
     // check triggers
     for (Iterator<Trigger> it = activeTriggers.iterator(); it.hasNext(); ) {
@@ -89,6 +85,8 @@ class Game {
   void draw() {
 
     //TODO(step1): replace this with a checkerboard pattern and a "plus" sign at the origin
+    
+    
     float hr = height / 14.0;
     float wr = width / 224.0;   
     int score = 000000;
@@ -96,11 +94,6 @@ class Game {
     
     
     level.drawBackgroundImages();
-    
-    for (Enemy enemy : enemies) {
-      enemy.draw();
-    }
-    
     player.draw();   
     drawer.draw("MARIO", 10 + (float)initialTilePos, 160);
     drawer.draw(nf(score, 6), 10 + (float)initialTilePos, 140);
@@ -108,15 +101,12 @@ class Game {
     drawer.draw("WORLD", 325 + (float)initialTilePos, 160);
     drawer.draw("1-1", 338 + (float)initialTilePos, 140);
     drawer.draw("TIME", 550 + (float)initialTilePos, 160);
-    drawer.draw(nf(time, 3), 563 + (float)initialTilePos, 140);
-<<<<<<< HEAD
-      if(millis() - lastTime >= 1000){
-        time--;
+    drawer.draw(nf(timeText, 3), 563 + (float)initialTilePos, 140);
+      if(millis() - lastTime >= 1000.0/2.5){
+        timeText--;
         println(time);
         lastTime = millis();
       }
-=======
->>>>>>> a7f509add33af1512a676d9b92ef1edfe047e56b
     //TODO(step1): draw the player.
   } 
   
