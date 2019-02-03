@@ -82,16 +82,26 @@ class Game {
   void draw() {
 
     //TODO(step1): replace this with a checkerboard pattern and a "plus" sign at the origin
-   
-
+    
+    
     float hr = height / 14.0;
-    float wr = width / 224.0;    
-    
-    
+    float wr = width / 224.0;   
+    int score = 000000;
+    int lives = 03;
+    int time = 400;
     level.drawBackgroundImages();
-    player.draw();
+    player.draw();   
+    drawer.draw("MARIO", 10 + (float)initialTilePos, 160);
+    drawer.draw(nf(score, 6), 10 + (float)initialTilePos, 140);
+    drawer.draw("x"+ nf(lives, 2), 150 + (float)initialTilePos, 140); 
+    drawer.draw("WORLD", 325 + (float)initialTilePos, 160);
+    drawer.draw("1-1", 338 + (float)initialTilePos, 140);
+    drawer.draw("TIME", 550 + (float)initialTilePos, 160);
+    drawer.draw(nf(time, 3), 563 + (float)initialTilePos, 140);
+    println(player.pos.x + " " + player.pos.y);
+    println();
     //TODO(step1): draw the player.
-  }
+  } 
   
 
  

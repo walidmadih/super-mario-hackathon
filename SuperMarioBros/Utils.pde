@@ -85,7 +85,7 @@ enum Shape{ RECTANGLE, ELLIPSE };
 final char CROSS = '+';
 
 class Drawer{
-  float fontSize = .5;
+  float fontSize = 16;
   
   // **** Shape ****
   void draw(Shape shape, float x, float y, float sx, float sy){ // rectangle
@@ -128,11 +128,16 @@ class Drawer{
     } else {
       pos = w*39;
     }
-    draw(resources.getSprite("data/img/font.png").get(pos,0,w,w), x, y);
+    PImage img = resources.getSprite("data/img/font.png").get(pos,0,w,w);
+    img.resize(0, 250);
+    draw(img, x, y);
   }
   void draw(String str, float x, float y){ // String
+    pushMatrix();
+    scale(1, -1);
     for(int i = 0; i < str.length(); ++i)
       draw(str.charAt(i), x+fontSize*i, y);
+    popMatrix();
   }
 }
 
