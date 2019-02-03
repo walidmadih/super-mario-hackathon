@@ -22,10 +22,12 @@ class Player extends Body {
   boolean isCrouching;
   boolean isOnGround;
   
-  ImageSet imgSet;      
+  ImageSet imgSet = smallMarioSet;   
         
   Player() {
-    this.size = new Vec2(cellSize, 2*cellSize);
+    this.size = new Vec2(cellSize, cellSize);
+    this.img = imgSet.get("idle").getPImage();
+    img.resize(cellSize, cellSize);
   }
      
   void step(float dt){
@@ -86,7 +88,6 @@ class Player extends Body {
   }
  //<>// //<>//
   boolean valid(){ return alive; }
-
   void draw() {
       super.draw();
   }
