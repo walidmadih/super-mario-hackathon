@@ -12,6 +12,7 @@ class Game {
   Player player;
   float locationX;
   float locationY;
+  int score, lives;
 
   ArrayList<Item> items = new ArrayList<Item>();
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -31,7 +32,7 @@ class Game {
     animations.clear();
     obstacles.clear();
     activeTriggers.clear();
-
+    
     // load level
     level.load("data/levels/lvl1-1/lvl.txt");  
     activeTriggers = level.copyTriggersArray();
@@ -66,6 +67,10 @@ class Game {
       enemy.handleEnemyCollisions(index);
       ++index;
     }
+    
+    for(Item item: items) {
+        item.handleBlockCollisions();
+    }
 
 
     for (int i = 0; i < level.triggers.size(); i++) { 
@@ -87,6 +92,8 @@ class Game {
     }
 
     player.handleEnemyCollisions();
+    
+    
 
     // check triggers
     for (Iterator<Trigger> it = activeTriggers.iterator(); it.hasNext(); ) {
@@ -116,15 +123,17 @@ class Game {
     if (!play) return;
 
     float hr = height / 14.0;
-    float wr = width / 224.0;   
-    int score = 000000;
-    int lives = 03;
+    float wr = width / 224.0;
 
 
     level.drawBackgroundImages();
 
     for (Enemy enemy : enemies) {
       enemy.draw();
+    }
+    
+    for(Item item: items) {
+        item.draw();
     }
 
     player.draw();   
